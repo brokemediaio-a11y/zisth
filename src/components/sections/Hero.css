@@ -17,22 +17,33 @@
   bottom: 0;
   left: 0;
   z-index: 0;
+  /* Ensure Spline viewer can receive mouse events */
+  pointer-events: auto;
 }
 
-/* Viewer occupies right portion of hero; left side shows page bg for text area */
+/* Viewer container - full width for interaction, positioned on right for visual */
 .hero__spline-bg-inner {
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
-  width: 58%;
+  left: 0;
+  width: 100%;
   min-width: 320px;
+  /* Clip overflow to hide Spline logo on the left */
+  overflow: hidden;
 }
 
 .hero__spline-bg-inner spline-viewer {
   display: block;
+  /* Full width for complete mouse interaction coverage */
   width: 100%;
   height: 100%;
+  /* Transform to position robot on right side while maintaining full-width interaction */
+  /* Adjust translateX percentage to fine-tune robot position (positive = right, negative = left) */
+  /* Adjust scale to zoom in/out the robot */
+  transform: translateX(20%);
+  transform-origin: center center;
 }
 
 /* Content overlay – padded so text stays left, readable over/next to Spline */
@@ -44,6 +55,8 @@
   margin: 0 auto;
   padding: var(--hero-padding-y) var(--hero-padding-x);
   padding-right: 48%;
+  /* Allow mouse events to pass through to Spline viewer behind */
+  pointer-events: none;
 }
 
 /* Subtle gradient on left edge so text stays readable where it overlaps Spline */
@@ -64,6 +77,8 @@
 .hero__content-inner {
   position: relative;
   max-width: 32rem;
+  /* Re-enable pointer events for content so it remains interactive */
+  pointer-events: auto;
 }
 
 /* Mobile: single column, Spline full-width background, content on top with padding */
