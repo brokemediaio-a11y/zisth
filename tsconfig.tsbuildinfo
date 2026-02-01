@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/splinescene.tsx","./src/components/layout/header.tsx","./src/components/sections/hero.tsx","./src/components/sections/herocontent.tsx","./src/components/ui/button.tsx","./src/components/ui/glasspanel.tsx"],"version":"5.9.3"}

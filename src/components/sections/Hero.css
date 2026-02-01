@@ -1,0 +1,111 @@
+/* Hero: full-section with Spline as background (right side), content overlay left */
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Spline background layer – full hero, but viewer container on the right so 3D stays right */
+.hero__spline-bg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+}
+
+/* Viewer occupies right portion of hero; left side shows page bg for text area */
+.hero__spline-bg-inner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 58%;
+  min-width: 320px;
+}
+
+.hero__spline-bg-inner spline-viewer {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Content overlay – padded so text stays left, readable over/next to Spline */
+.hero__content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: var(--hero-padding-y) var(--hero-padding-x);
+  padding-right: 48%;
+}
+
+/* Subtle gradient on left edge so text stays readable where it overlaps Spline */
+.hero__content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 70%;
+  max-width: 28rem;
+  background: linear-gradient(to right, var(--color-bg) 60%, transparent);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.hero__content-inner {
+  position: relative;
+  max-width: 32rem;
+}
+
+/* Mobile: single column, Spline full-width background, content on top with padding */
+@media (max-width: 768px) {
+  .hero {
+    min-height: auto;
+    padding-bottom: var(--space-3xl);
+  }
+
+  .hero__spline-bg-inner {
+    width: 100%;
+    min-width: 100%;
+    height: 45vh;
+    min-height: 280px;
+    top: auto;
+    bottom: 0;
+  }
+
+  .hero__content {
+    padding: var(--hero-padding-y-mobile) var(--hero-padding-x-mobile);
+    padding-right: var(--hero-padding-x-mobile);
+    padding-bottom: 42vh;
+  }
+
+  .hero__content::before {
+    width: 100%;
+    max-width: none;
+    background: linear-gradient(to bottom, var(--color-bg) 70%, transparent 95%);
+    height: 100%;
+  }
+}
+
+/* Small phones: tighter padding */
+@media (max-width: 480px) {
+  .hero__content {
+    padding-left: var(--hero-padding-x-sm);
+    padding-right: var(--hero-padding-x-sm);
+    padding-bottom: 38vh;
+  }
+
+  .hero__spline-bg-inner {
+    height: 40vh;
+    min-height: 240px;
+  }
+}

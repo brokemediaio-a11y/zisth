@@ -1,0 +1,13 @@
+.spline-viewer-background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.spline-viewer-background spline-viewer {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
