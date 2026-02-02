@@ -1,12 +1,15 @@
 /* Hero: full-section with Spline as background (right side), content overlay left */
 .hero {
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  min-height: 100vh;
-  min-height: 100dvh;
+  height: 100vh;
+  height: 100dvh;
   display: flex;
   align-items: center;
   overflow: hidden;
+  z-index: 1;
 }
 
 /* Spline background layer – full hero, but viewer container on the right so 3D stays right */

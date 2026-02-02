@@ -7,3 +7,9 @@
 .app > main {
   flex: 1;
 }
+
+/* Spacer for fixed hero - prevents content jump */
+.hero-spacer {
+  height: 100vh;
+  height: 100dvh;
+}
