@@ -1,0 +1,48 @@
+.service-navigation {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.service-navigation__dock-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.service-navigation__dock {
+  width: 100%;
+  max-width: 100%;
+  justify-content: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.service-navigation__dock::-webkit-scrollbar {
+  display: none;
+}
+
+/* Ensure dock items are visible and clickable */
+.service-navigation__dock .floating-dock__link {
+  flex-shrink: 0;
+}
+
+/* Active state styling - we'll handle this via JavaScript by adding a class */
+.service-navigation__link--active,
+.service-navigation__dock .service-navigation__link--active {
+  color: #fff !important;
+  background: linear-gradient(45deg, #212529, #343a40) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+.service-navigation__link--active .floating-dock__link-inner {
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .service-navigation__dock {
+    padding: 0 var(--space-sm);
+  }
+}
