@@ -8,11 +8,12 @@
   --color-text: #252525;
   --color-text-muted: #555555;
 
-  /* Glass (header, cards) */
-  --glass-bg: rgba(255, 255, 255, 0.65);
+  /* Glass (header, cards) – dock-style glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.7);
   --glass-border: rgba(37, 37, 37, 0.08);
   --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
   --glass-blur: 12px;
+  --glass-saturate: 150%;
 
   /* Buttons */
   --button-primary-bg: #252525;
@@ -52,8 +53,28 @@
   --radius-xl: 24px;
   --radius-full: 9999px;
 
+  /* Dock (header nav) */
+  --dock-bg: rgba(255, 255, 255, 0.85);
+  --dock-item-bg: rgba(37, 37, 37, 0.08);
+  --dock-item-bg-hover: rgba(37, 37, 37, 0.12);
+  --dock-icon-color: var(--color-text-muted);
+  --dock-tooltip-bg: var(--color-bg);
+  --dock-tooltip-border: rgba(37, 37, 37, 0.1);
+  --dock-item-size: 40px;
+  --dock-item-size-max: 56px;
+  --dock-icon-size: 20px;
+  --dock-icon-size-max: 28px;
+
+  /* Neumorphic hover (menu options – Generate-button style) */
+  --neumorphic-bg: linear-gradient(180deg, #ececec 0%, #e0e0e0 50%, #d4d4d4 100%);
+  --neumorphic-highlight: inset 1px 1px 2px rgba(255, 255, 255, 0.9);
+  --neumorphic-inner-shadow: inset -1px -1px 2px rgba(0, 0, 0, 0.08);
+  --neumorphic-drop: 3px 4px 10px rgba(0, 0, 0, 0.12);
+
   /* Typography */
-  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: "Orbitron", sans-serif;
+  --font-body: "Poppins", sans-serif;
+  --font-sans: var(--font-body);
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;

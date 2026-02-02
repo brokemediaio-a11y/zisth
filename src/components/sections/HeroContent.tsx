@@ -1,4 +1,5 @@
 import { type HTMLAttributes } from 'react'
+import BlurInText from '../ui/BlurInText'
 import './HeroContent.css'
 
 export interface HeroContentProps extends HTMLAttributes<HTMLDivElement> {
@@ -19,7 +20,14 @@ export default function HeroContent({
   return (
     <div className={`hero-content ${className}`.trim()} {...props}>
       <h1 id="hero-headline" className="hero-content__headline">
-        {headline}
+        <BlurInText
+          text={headline}
+          blurAmount={12}
+          duration={1}
+          stagger={0.08}
+          split="letter"
+          trigger="mount"
+        />
       </h1>
       <p className="hero-content__subtext">{subtext}</p>
       {(primaryAction ?? secondaryAction) && (

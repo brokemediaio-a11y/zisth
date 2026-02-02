@@ -1,13 +1,14 @@
 /// <reference types="vite/client" />
 
-declare namespace JSX {
-  interface IntrinsicElements {
-    'spline-viewer': React.DetailedHTMLProps<
-      React.HTMLAttributes<HTMLElement> & {
+import type { HTMLAttributes } from 'react'
+
+declare module 'react' {
+  namespace JSX {
+    interface IntrinsicElements {
+      'spline-viewer': HTMLAttributes<HTMLElement> & {
         url: string
         'loading-anim-type'?: string
-      },
-      HTMLElement
-    >
+      }
+    }
   }
 }

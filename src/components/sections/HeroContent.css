@@ -13,6 +13,7 @@
   line-height: var(--line-height-tight);
   letter-spacing: -0.03em;
   color: var(--color-text);
+  margin-right: -49%;
 }
 
 .hero-content__subtext {

@@ -1,0 +1,185 @@
+import { useRef, useState } from 'react'
+import {
+  AnimatePresence,
+  motion,
+  useMotionValue,
+  useTransform,
+  useSpring,
+  type MotionValue,
+} from 'framer-motion'
+import { Menu } from 'lucide-react'
+import { cn } from '../../lib/utils'
+import './FloatingDock.css'
+
+const DOCK_DISTANCE = 220
+const DOCK_SPRING = { mass: 0.12, stiffness: 120, damping: 18 }
+
+export interface FloatingDockItem {
+  title: string
+  href: string
+  icon?: React.ReactNode
+}
+
+export interface FloatingDockProps {
+  items: FloatingDockItem[]
+  desktopClassName?: string
+  mobileClassName?: string
+}
+
+function DockItem({
+  mouseX,
+  title,
+  icon,
+  href,
+}: {
+  mouseX: MotionValue<number>
+  title: string
+  icon?: React.ReactNode
+  href: string
+}) {
+  const ref = useRef<HTMLElement | null>(null)
+  const [hovered, setHovered] = useState(false)
+  const isTextOnly = icon == null
+
+  const distance = useTransform(mouseX, (val) => {
+    const bounds = ref.current?.getBoundingClientRect()
+    if (!bounds) return 0
+    return val - bounds.left - bounds.width / 2
+  })
+
+  /* Text-only: scale (1 → 1.4) for a clear pop; smoother spring for fluid motion. */
+  const scaleTransform = useTransform(distance, [-DOCK_DISTANCE, 0, DOCK_DISTANCE], [1, 1.4, 1])
+  const widthTransform = useTransform(distance, [-DOCK_DISTANCE, 0, DOCK_DISTANCE], [40, 56, 40])
+  const heightTransform = useTransform(distance, [-DOCK_DISTANCE, 0, DOCK_DISTANCE], [40, 56, 40])
+  const iconWidthTransform = useTransform(distance, [-DOCK_DISTANCE, 0, DOCK_DISTANCE], [20, 28, 20])
+  const iconHeightTransform = useTransform(distance, [-DOCK_DISTANCE, 0, DOCK_DISTANCE], [20, 28, 20])
+
+  const scale = useSpring(scaleTransform, DOCK_SPRING)
+  const width = useSpring(widthTransform, DOCK_SPRING)
+  const height = useSpring(heightTransform, DOCK_SPRING)
+  const iconWidth = useSpring(iconWidthTransform, DOCK_SPRING)
+  const iconHeight = useSpring(iconHeightTransform, DOCK_SPRING)
+
+  if (isTextOnly) {
+    return (
+      <motion.a
+        ref={ref as React.RefObject<HTMLAnchorElement>}
+        href={href}
+        style={{ scale }}
+        className="floating-dock__link floating-dock__link--text"
+        aria-label={title}
+      >
+        <span className="floating-dock__link-inner">{title}</span>
+      </motion.a>
+    )
+  }
+
+  return (
+    <a href={href} className="floating-dock__link" aria-label={title}>
+      <motion.div
+        ref={ref as React.RefObject<HTMLDivElement>}
+        style={{ width, height }}
+        className="floating-dock__icon-wrapper"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        <AnimatePresence>
+          {hovered && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 4 }}
+              className="floating-dock__tooltip"
+            >
+              {title}
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <motion.div style={{ width: iconWidth, height: iconHeight }} className="floating-dock__icon">
+          {icon}
+        </motion.div>
+      </motion.div>
+    </a>
+  )
+}
+
+function FloatingDockDesktop({
+  items,
+  className,
+}: {
+  items: FloatingDockItem[]
+  className?: string
+}) {
+  const mouseX = useMotionValue(Infinity)
+
+  return (
+    <motion.div
+      onMouseMove={(e) => mouseX.set(e.clientX)}
+      onMouseLeave={() => mouseX.set(Infinity)}
+      className={cn('floating-dock', 'floating-dock--desktop', className)}
+    >
+      {items.map((item) => (
+        <DockItem mouseX={mouseX} key={item.title} {...item} />
+      ))}
+    </motion.div>
+  )
+}
+
+function FloatingDockMobile({
+  items,
+  className,
+}: {
+  items: FloatingDockItem[]
+  className?: string
+}) {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <div className={cn('floating-dock-mobile', className)}>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            layoutId="floating-dock-mobile-nav"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="floating-dock-mobile__menu"
+          >
+            {items.map((item, idx) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ delay: (items.length - 1 - idx) * 0.04 }}
+                className="floating-dock-mobile__menu-item"
+              >
+                <a href={item.href} onClick={() => setOpen(false)} className="floating-dock-mobile__menu-link">
+                  {item.icon && <span className="floating-dock-mobile__menu-icon">{item.icon}</span>}
+                  {item.title}
+                </a>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        className="floating-dock-mobile__trigger"
+        aria-label={open ? 'Close menu' : 'Open menu'}
+      >
+        <Menu className="floating-dock-mobile__trigger-icon" />
+      </button>
+    </div>
+  )
+}
+
+export function FloatingDock({ items, desktopClassName, mobileClassName }: FloatingDockProps) {
+  return (
+    <>
+      <FloatingDockDesktop items={items} className={desktopClassName} />
+      <FloatingDockMobile items={items} className={mobileClassName} />
+    </>
+  )
+}

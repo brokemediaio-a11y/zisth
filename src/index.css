@@ -12,6 +12,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Global headings: Orbitron */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-optical-sizing: auto;
+  font-weight: 500;
+}
+
 *,
 *::before,
 *::after {
