@@ -31,7 +31,7 @@
 
 /* Text-only dock items (no icon) – scale animates from center; liquid glass effect on hover */
 .floating-dock__link--text {
-  min-width: 5rem;
+  min-width: fit-content;
   height: 2.5rem;
   padding: 0 1rem;
   font-size: 0.875rem;
@@ -53,6 +53,7 @@
   background: none;
   box-shadow: none;
   isolation: isolate;
+  flex-shrink: 0;
 }
 
 /* Liquid glass effect layers - only visible on hover */

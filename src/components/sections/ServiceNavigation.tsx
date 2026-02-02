@@ -68,6 +68,7 @@ export default function ServiceNavigation({ services, activeId, onSelect }: Serv
     })
   }, [activeId])
 
+
   return (
     <div className="service-navigation" ref={dockRef}>
       <div className="service-navigation__dock-wrapper">

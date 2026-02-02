@@ -42,13 +42,19 @@ function DockItem({
   const isTextOnly = icon == null
 
   const distance = useTransform(mouseX, (val) => {
+    if (val === Infinity) return Infinity
     const bounds = ref.current?.getBoundingClientRect()
-    if (!bounds) return 0
+    if (!bounds) return Infinity
     return val - bounds.left - bounds.width / 2
   })
 
   /* Text-only: scale (1 → 1.4) for a clear pop; smoother spring for fluid motion. */
-  const scaleTransform = useTransform(distance, [-DOCK_DISTANCE, 0, DOCK_DISTANCE], [1, 1.4, 1])
+  /* When mouseX is Infinity (no hover), scale should be 1 (normal state) */
+  const scaleTransform = useTransform(distance, (val) => {
+    if (!isFinite(val) || Math.abs(val) > DOCK_DISTANCE) return 1
+    const normalized = Math.abs(val) / DOCK_DISTANCE
+    return 1 + (0.4 * (1 - normalized))
+  })
   const widthTransform = useTransform(distance, [-DOCK_DISTANCE, 0, DOCK_DISTANCE], [40, 56, 40])
   const heightTransform = useTransform(distance, [-DOCK_DISTANCE, 0, DOCK_DISTANCE], [40, 56, 40])
   const iconWidthTransform = useTransform(distance, [-DOCK_DISTANCE, 0, DOCK_DISTANCE], [20, 28, 20])

@@ -14,14 +14,9 @@
   width: 100%;
   max-width: 100%;
   justify-content: center;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.service-navigation__dock::-webkit-scrollbar {
-  display: none;
+  align-items: center;
+  overflow: visible;
+  padding: 0 var(--space-lg);
 }
 
 /* Ensure dock items are visible and clickable */
