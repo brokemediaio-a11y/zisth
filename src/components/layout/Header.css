@@ -63,6 +63,7 @@
   }
 }
 
+/* Legacy CTA button styles - kept for backwards compatibility */
 .header__cta {
   display: inline-flex;
   align-items: center;
@@ -79,6 +80,11 @@
 
 .header__cta:hover {
   background: var(--button-primary-hover-bg);
+}
+
+/* Liquid glass button in header */
+.header__actions .liquid-glass {
+  flex-shrink: 0;
 }
 
 /* Mobile hamburger */

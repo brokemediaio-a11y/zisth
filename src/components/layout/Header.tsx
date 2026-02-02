@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { FloatingDock } from '../ui/FloatingDock'
+import LiquidGlassButton from '../ui/LiquidGlassButton'
 import './Header.css'
 
 const navLinks = [
@@ -33,9 +34,22 @@ export default function Header() {
         </div>
 
         <div className="header__actions">
-          <a href="#contact" className="header__cta">
+          <LiquidGlassButton
+            as="a"
+            href="#contact"
+            width={169}
+            height={56}
+            borderRadius={33.04}
+            innerShadowColor="#000000"
+            innerShadowBlur={17}
+            innerShadowSpread={-15}
+            glassTintColor="rgba(26, 26, 26, 0.17)"
+            frostBlurRadius={0}
+            noiseFrequency={0.02}
+            noiseStrength={43}
+          >
             Get in touch
-          </a>
+          </LiquidGlassButton>
         </div>
 
         <button

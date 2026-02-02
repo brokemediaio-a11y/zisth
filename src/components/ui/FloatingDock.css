@@ -29,7 +29,7 @@
   justify-content: center;
 }
 
-/* Text-only dock items (no icon) – scale animates from center; bubble effect on hover */
+/* Text-only dock items (no icon) – scale animates from center; liquid glass effect on hover */
 .floating-dock__link--text {
   min-width: 5rem;
   height: 2.5rem;
@@ -48,76 +48,67 @@
   justify-content: center;
   overflow: hidden;
   transform-origin: center center;
-  transition: color 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
   z-index: 1;
-  background: transparent;
+  background: none;
   box-shadow: none;
+  isolation: isolate;
 }
 
-.floating-dock__link--text:hover {
-  color: #fff;
-  background: linear-gradient(45deg, #212529, #343a40);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Bubble effect: diagonal shine overlay that slides away on hover */
+/* Liquid glass effect layers - only visible on hover */
 .floating-dock__link--text::before {
   content: '';
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    45deg,
-    rgba(255, 255, 255, 0.1),
-    rgba(255, 255, 255, 0)
-  );
-  transform: rotate(45deg);
-  transition: all 0.5s ease;
-  z-index: -1;
-  pointer-events: none;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 17px -15px #000000;
+  background-color: rgba(26, 26, 26, 0.17);
   opacity: 0;
+  transition: opacity 0.2s ease;
 }
 
-.floating-dock__link--text:hover::before {
-  opacity: 1;
-  top: -100%;
-  left: -100%;
-}
-
-/* Bubble effect: expanding strip with gradient and inner highlight */
 .floating-dock__link--text::after {
   content: '';
   position: absolute;
-  width: 0;
-  height: 100%;
-  top: 0;
-  right: 0;
-  border-radius: 25px;
+  inset: 0;
   z-index: -1;
-  transition: all 0.3s ease;
-  background: linear-gradient(45deg, #343a40, #495057);
-  box-shadow:
-    inset 2px 2px 2px 0 rgba(255, 255, 255, 0.5),
-    7px 7px 20px 0 rgba(0, 0, 0, 0.1),
-    4px 4px 5px 0 rgba(0, 0, 0, 0.1);
-  pointer-events: none;
+  border-radius: inherit;
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  filter: var(--dock-filter-url, none);
+  -webkit-filter: var(--dock-filter-url, none);
+  opacity: 0;
+  transition: opacity 0.2s ease;
 }
 
+/* Apply glass effect on hover */
+.floating-dock__link--text:hover {
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: 0px 8px 28px rgba(0, 0, 0, 0.25);
+  color: #050505;
+}
+
+.floating-dock__link--text:hover::before,
 .floating-dock__link--text:hover::after {
-  width: 100%;
-  left: 0;
+  opacity: 1;
 }
 
-.floating-dock__link--text:active:hover {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  background: linear-gradient(45deg, #212529, #343a40);
+.floating-dock__link--text:active {
+  transform: translateY(0) scale(1);
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .floating-dock__link--text .floating-dock__link-inner {
   position: relative;
-  z-index: 2;
+  z-index: 1;
+  transition: text-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+/* Apply text styling on hover to match glass effect */
+.floating-dock__link--text:hover .floating-dock__link-inner {
+  text-shadow: 0px 3px 7px rgba(0, 0, 0, 1);
+  opacity: 0.91;
 }
 
 .floating-dock__icon-wrapper {

@@ -111,17 +111,43 @@ function FloatingDockDesktop({
   className?: string
 }) {
   const mouseX = useMotionValue(Infinity)
+  const filterId = `glass-distortion-dock-${Math.random().toString(36).substr(2, 9)}`
 
   return (
-    <motion.div
-      onMouseMove={(e) => mouseX.set(e.clientX)}
-      onMouseLeave={() => mouseX.set(Infinity)}
-      className={cn('floating-dock', 'floating-dock--desktop', className)}
-    >
-      {items.map((item) => (
-        <DockItem mouseX={mouseX} key={item.title} {...item} />
-      ))}
-    </motion.div>
+    <>
+      {/* SVG filter definition for liquid glass effect */}
+      <svg xmlns="http://www.w3.org/2000/svg" style={{ display: 'none' }}>
+        <defs>
+          <filter id={filterId} x="0%" y="0%" width="100%" height="100%">
+            <feTurbulence
+              type="fractalNoise"
+              baseFrequency="0.02 0.02"
+              numOctaves={2}
+              seed={92}
+              result="noise"
+            />
+            <feGaussianBlur in="noise" stdDeviation="2" result="blurred" />
+            <feDisplacementMap
+              in="SourceGraphic"
+              in2="blurred"
+              scale="43"
+              xChannelSelector="R"
+              yChannelSelector="G"
+            />
+          </filter>
+        </defs>
+      </svg>
+      <motion.div
+        onMouseMove={(e) => mouseX.set(e.clientX)}
+        onMouseLeave={() => mouseX.set(Infinity)}
+        className={cn('floating-dock', 'floating-dock--desktop', className)}
+        style={{ '--dock-filter-url': `url(#${filterId})` } as React.CSSProperties & { '--dock-filter-url': string }}
+      >
+        {items.map((item) => (
+          <DockItem mouseX={mouseX} key={item.title} {...item} />
+        ))}
+      </motion.div>
+    </>
   )
 }
 
