@@ -12,6 +12,21 @@
   z-index: 1;
 }
 
+/* Mobile: maintain fixed position for parallax, but adjust layout */
+@media (max-width: 768px) {
+  .hero {
+    position: fixed;
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow: hidden;
+    padding-top: 5rem; /* Account for fixed header */
+  }
+}
+
 /* Spline background layer – full hero, but viewer container on the right so 3D stays right */
 .hero__spline-bg {
   position: absolute;
@@ -49,6 +64,14 @@
   transform-origin: center center;
 }
 
+/* Mobile: center robot and adjust transform */
+@media (max-width: 768px) {
+  .hero__spline-bg-inner spline-viewer {
+    transform: translateX(0) scale(1.1);
+    transform-origin: center center;
+  }
+}
+
 /* Content overlay – padded so text stays left, readable over/next to Spline */
 .hero__content {
   position: relative;
@@ -60,6 +83,23 @@
   padding-right: 48%;
   /* Allow mouse events to pass through to Spline viewer behind */
   pointer-events: none;
+}
+
+/* Mobile: center content and adjust padding */
+@media (max-width: 768px) {
+  .hero__content {
+    position: relative;
+    padding: var(--hero-padding-y-mobile) var(--hero-padding-x-mobile);
+    padding-right: var(--hero-padding-x-mobile);
+    padding-bottom: var(--space-lg); /* Reduced spacing before robot */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    order: 1;
+    justify-content: flex-start;
+    min-height: auto; /* Remove fixed min-height */
+  }
 }
 
 /* Subtle gradient on left edge so text stays readable where it overlaps Spline */
@@ -84,46 +124,75 @@
   pointer-events: auto;
 }
 
-/* Mobile: single column, Spline full-width background, content on top with padding */
+/* Mobile: center align and adjust width */
 @media (max-width: 768px) {
-  .hero {
-    min-height: auto;
-    padding-bottom: var(--space-3xl);
-  }
-
-  .hero__spline-bg-inner {
+  .hero__content-inner {
+    max-width: 100%;
     width: 100%;
-    min-width: 100%;
-    height: 45vh;
-    min-height: 280px;
-    top: auto;
-    bottom: 0;
-  }
-
-  .hero__content {
-    padding: var(--hero-padding-y-mobile) var(--hero-padding-x-mobile);
-    padding-right: var(--hero-padding-x-mobile);
-    padding-bottom: 42vh;
-  }
-
-  .hero__content::before {
-    width: 100%;
-    max-width: none;
-    background: linear-gradient(to bottom, var(--color-bg) 70%, transparent 95%);
-    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }
 
-/* Small phones: tighter padding */
+/* Mobile: vertical stack layout - content first, then robot */
+@media (max-width: 768px) {
+  /* Remove gradient overlay on mobile */
+  .hero__content::before {
+    display: none;
+  }
+
+  /* Spline robot positioned below content */
+  .hero__spline-bg {
+    position: relative;
+    order: 2;
+    width: 100%;
+    height: 50vh;
+    min-height: 300px;
+    max-height: 55vh;
+    margin-top: var(--space-md); /* Reduced spacing from content */
+    overflow: hidden;
+  }
+
+  .hero__spline-bg-inner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Crop bottom to hide Spline logo */
+    clip-path: inset(0 0 10% 0);
+    -webkit-clip-path: inset(0 0 10% 0);
+  }
+}
+
+/* Small phones: adjust robot height and spacing */
 @media (max-width: 480px) {
   .hero__content {
     padding-left: var(--hero-padding-x-sm);
     padding-right: var(--hero-padding-x-sm);
-    padding-bottom: 38vh;
+  }
+
+  .hero__spline-bg {
+    height: 45vh;
+    min-height: 280px;
+    max-height: 50vh;
+    margin-top: var(--space-md); /* Reduced spacing on small phones */
   }
 
   .hero__spline-bg-inner {
+    /* Crop more on small screens to hide logo */
+    clip-path: inset(0 0 15% 0);
+    -webkit-clip-path: inset(0 0 15% 0);
+  }
+}
+
+/* Extra small phones: further adjustments */
+@media (max-width: 375px) {
+  .hero__spline-bg {
     height: 40vh;
     min-height: 240px;
+    max-height: 45vh;
   }
 }

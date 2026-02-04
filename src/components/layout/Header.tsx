@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { FloatingDock } from '../ui/FloatingDock'
@@ -6,10 +7,10 @@ import LiquidGlassButton from '../ui/LiquidGlassButton'
 import './Header.css'
 
 const navLinks = [
-  { title: 'Home', href: '#home' },
+  { title: 'Home', href: '/' },
   { title: 'Services', href: '#services' },
   { title: 'About us', href: '#about' },
-  { title: 'Blogs', href: '#blogs' },
+  { title: 'Blogs', href: '/blogs' },
   { title: 'Research', href: '#research' },
   { title: 'portfolio', href: '#portfolio' },
   { title: 'Contact us', href: '#contact' },
@@ -21,9 +22,9 @@ export default function Header() {
   return (
     <header className="header">
       <div className="header__bar">
-        <a href="/" className="header__logo" aria-label="Zisth home">
+        <Link to="/" className="header__logo" aria-label="Zisth home">
           Zisth
-        </a>
+        </Link>
 
         <div className="header__dock-wrap">
           <FloatingDock

@@ -1,11 +1,11 @@
 /// <reference types="vite/client" />
 
-import type { HTMLAttributes } from 'react'
+import type { DetailedHTMLProps, HTMLAttributes } from 'react'
 
 declare module 'react' {
   namespace JSX {
     interface IntrinsicElements {
-      'spline-viewer': HTMLAttributes<HTMLElement> & {
+      'spline-viewer': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement> & {
         url: string
         'loading-anim-type'?: string
       }

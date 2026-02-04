@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import {
   AnimatePresence,
   motion,
@@ -66,7 +67,23 @@ function DockItem({
   const iconWidth = useSpring(iconWidthTransform, DOCK_SPRING)
   const iconHeight = useSpring(iconHeightTransform, DOCK_SPRING)
 
+  // Check if href is a route (starts with /) or hash/anchor link
+  const isRoute = href.startsWith('/')
+
   if (isTextOnly) {
+    if (isRoute) {
+      return (
+        <motion.div style={{ scale }}>
+          <Link
+            to={href}
+            className="floating-dock__link floating-dock__link--text"
+            aria-label={title}
+          >
+            <span className="floating-dock__link-inner">{title}</span>
+          </Link>
+        </motion.div>
+      )
+    }
     return (
       <motion.a
         ref={ref as React.RefObject<HTMLAnchorElement>}
@@ -77,6 +94,36 @@ function DockItem({
       >
         <span className="floating-dock__link-inner">{title}</span>
       </motion.a>
+    )
+  }
+
+  if (isRoute) {
+    return (
+      <Link to={href} className="floating-dock__link" aria-label={title}>
+        <motion.div
+          ref={ref as React.RefObject<HTMLDivElement>}
+          style={{ width, height }}
+          className="floating-dock__icon-wrapper"
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+        >
+          <AnimatePresence>
+            {hovered && (
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 4 }}
+                className="floating-dock__tooltip"
+              >
+                {title}
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <motion.div style={{ width: iconWidth, height: iconHeight }} className="floating-dock__icon">
+            {icon}
+          </motion.div>
+        </motion.div>
+      </Link>
     )
   }
 
@@ -177,21 +224,31 @@ function FloatingDockMobile({
             exit={{ opacity: 0 }}
             className="floating-dock-mobile__menu"
           >
-            {items.map((item, idx) => (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{ delay: (items.length - 1 - idx) * 0.04 }}
-                className="floating-dock-mobile__menu-item"
-              >
-                <a href={item.href} onClick={() => setOpen(false)} className="floating-dock-mobile__menu-link">
-                  {item.icon && <span className="floating-dock-mobile__menu-icon">{item.icon}</span>}
-                  {item.title}
-                </a>
-              </motion.div>
-            ))}
+            {items.map((item, idx) => {
+              const isRoute = item.href.startsWith('/')
+              return (
+                <motion.div
+                  key={item.title}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ delay: (items.length - 1 - idx) * 0.04 }}
+                  className="floating-dock-mobile__menu-item"
+                >
+                  {isRoute ? (
+                    <Link to={item.href} onClick={() => setOpen(false)} className="floating-dock-mobile__menu-link">
+                      {item.icon && <span className="floating-dock-mobile__menu-icon">{item.icon}</span>}
+                      {item.title}
+                    </Link>
+                  ) : (
+                    <a href={item.href} onClick={() => setOpen(false)} className="floating-dock-mobile__menu-link">
+                      {item.icon && <span className="floating-dock-mobile__menu-icon">{item.icon}</span>}
+                      {item.title}
+                    </a>
+                  )}
+                </motion.div>
+              )
+            })}
           </motion.div>
         )}
       </AnimatePresence>

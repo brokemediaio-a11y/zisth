@@ -11,10 +11,17 @@
   "dependencies": {
     "@splinetool/react-spline": "^4.1.0",
     "@splinetool/runtime": "^1.9.0",
+    "@tiptap/extension-image": "^2.11.5",
+    "@tiptap/extension-link": "^2.11.5",
+    "@tiptap/extension-placeholder": "^2.11.5",
+    "@tiptap/extension-underline": "^2.11.5",
+    "@tiptap/react": "^2.11.5",
+    "@tiptap/starter-kit": "^2.11.5",
     "framer-motion": "^11.15.0",
     "lucide-react": "^0.563.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.13.0"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",

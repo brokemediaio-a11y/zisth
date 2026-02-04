@@ -13,3 +13,16 @@
   height: 100vh;
   height: 100dvh;
 }
+
+/* Mobile: maintain spacer for fixed hero parallax effect */
+@media (max-width: 768px) {
+  .app {
+    padding-top: 0;
+  }
+  
+  /* Keep spacer for parallax effect on mobile */
+  .hero-spacer {
+    height: 100vh;
+    height: 100dvh;
+  }
+}

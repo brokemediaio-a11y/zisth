@@ -1,9 +1,13 @@
-import { type HTMLAttributes, type ReactNode } from 'react'
+import type {
+  AnchorHTMLAttributes,
+  ButtonHTMLAttributes,
+  CSSProperties,
+  ReactNode,
+} from 'react'
 import './LiquidGlassButton.css'
 
-export interface LiquidGlassButtonProps extends Omit<HTMLAttributes<HTMLAnchorElement | HTMLButtonElement>, 'children'> {
+type BaseProps = {
   children: ReactNode
-  as?: 'a' | 'button'
   width?: number
   height?: number
   borderRadius?: number
@@ -15,7 +19,13 @@ export interface LiquidGlassButtonProps extends Omit<HTMLAttributes<HTMLAnchorEl
   frostBlurRadius?: number
   noiseFrequency?: number
   noiseStrength?: number
+  className?: string
+  style?: CSSProperties
 }
+
+export type LiquidGlassButtonProps =
+  | ({ as: 'a' } & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'children'> & BaseProps)
+  | ({ as?: 'button' } & Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> & BaseProps)
 
 export default function LiquidGlassButton({
   children,
@@ -71,7 +81,7 @@ export default function LiquidGlassButton({
           '--inner-shadow': `inset 0 0 ${innerShadowBlur}px ${innerShadowSpread}px ${innerShadowColor}`,
           '--glass-tint': glassTintColor,
           ...style,
-        } as React.CSSProperties & { '--filter-url': string; '--inner-shadow': string; '--glass-tint': string }}
+        } as CSSProperties & { '--filter-url': string; '--inner-shadow': string; '--glass-tint': string }}
         {...(props as any)}
       >
         <span className="glass-text">{children}</span>

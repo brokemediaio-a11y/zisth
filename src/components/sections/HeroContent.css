@@ -6,6 +6,17 @@
   max-width: 32rem;
 }
 
+/* Mobile: center align and adjust spacing */
+@media (max-width: 768px) {
+  .hero-content {
+    max-width: 100%;
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-md);
+  }
+}
+
 .hero-content__headline {
   margin: 0;
   font-size: clamp(2rem, 4.5vw, 3.25rem);
@@ -16,6 +27,39 @@
   margin-right: -49%;
 }
 
+/* Mobile: adjust heading for better mobile display */
+@media (max-width: 768px) {
+  .hero-content__headline {
+    font-size: clamp(1.4rem, 6vw, 2.1rem);
+    line-height: 1.2;
+    margin-right: 0;
+    max-width: 100%;
+    /* Limit to exactly 2 lines */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    /* Prevent word breaks within words */
+    word-break: keep-all;
+    overflow-wrap: normal;
+    hyphens: none;
+    letter-spacing: -0.02em;
+    white-space: pre-line;
+  }
+  
+  /* Prevent breaking within words - group letters together */
+  .hero-content__headline > span {
+    display: inline;
+    word-break: keep-all;
+  }
+  
+  /* Keep individual letter spans inline to prevent breaking */
+  .hero-content__headline > span > span {
+    display: inline;
+  }
+}
+
 .hero-content__subtext {
   margin: 0;
   font-size: clamp(1rem, 1.75vw, 1.125rem);
@@ -23,11 +67,51 @@
   color: var(--color-text-muted);
 }
 
+/* Mobile: adjust subtext for readability */
+@media (max-width: 768px) {
+  .hero-content__subtext {
+    font-size: clamp(0.9375rem, 4vw, 1.0625rem);
+    line-height: 1.6;
+    max-width: 100%;
+    padding: 0 var(--space-sm);
+  }
+}
+
 .hero-content__actions {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-md);
   margin-top: var(--space-xs);
+}
+
+/* Mobile: stack buttons vertically */
+@media (max-width: 768px) {
+  .hero-content__actions {
+    flex-direction: column;
+    width: 100%;
+    max-width: 20rem;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+    align-items: stretch;
+  }
+}
+
+/* Small phones: full width buttons and further heading adjustments */
+@media (max-width: 480px) {
+  .hero-content__actions {
+    max-width: 100%;
+  }
+  
+  .hero-content__headline {
+    font-size: clamp(1.3rem, 5.5vw, 1.9rem);
+  }
+}
+
+/* Extra small phones: even smaller heading */
+@media (max-width: 375px) {
+  .hero-content__headline {
+    font-size: clamp(1.2rem, 5vw, 1.75rem);
+  }
 }
 
 .hero-content__btn {
@@ -40,6 +124,25 @@
   text-decoration: none;
   border-radius: var(--radius-md);
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Mobile: optimize button size for touch */
+@media (max-width: 768px) {
+  .hero-content__btn {
+    width: 100%;
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+    min-height: 48px; /* Touch-friendly minimum height */
+  }
+  
+  /* Make primary button more prominent */
+  .hero-content__btn--primary {
+    order: 1;
+  }
+  
+  .hero-content__btn--secondary {
+    order: 2;
+  }
 }
 
 .hero-content__btn--primary {

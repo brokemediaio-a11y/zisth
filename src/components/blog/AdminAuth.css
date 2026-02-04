@@ -1,0 +1,94 @@
+.admin-auth {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg);
+  padding: var(--space-xl);
+}
+
+.admin-auth__container {
+  width: 100%;
+  max-width: 28rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-3xl);
+  box-shadow: var(--glass-shadow);
+}
+
+.admin-auth__title {
+  margin: 0 0 var(--space-sm) 0;
+  font-size: 2rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  text-align: center;
+  font-family: var(--font-heading);
+}
+
+.admin-auth__subtitle {
+  margin: 0 0 var(--space-2xl) 0;
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.admin-auth__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.admin-auth__input-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.admin-auth__input {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-auth__input:focus {
+  outline: none;
+  border-color: var(--color-text);
+  box-shadow: 0 0 0 3px rgba(37, 37, 37, 0.1);
+}
+
+.admin-auth__error {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #dc2626;
+}
+
+.admin-auth__button {
+  width: 100%;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--button-primary-text);
+  background: var(--button-primary-bg);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.admin-auth__button:hover:not(:disabled) {
+  background: var(--button-primary-hover-bg);
+}
+
+.admin-auth__button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
