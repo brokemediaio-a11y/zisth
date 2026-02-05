@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import AdminAuth from '../components/blog/AdminAuth'
+import { useAuth } from '../hooks/useAuth'
 import BlogEditor from '../components/blog/BlogEditor'
 import { deleteBlog, getAllBlogs } from '../lib/blogStorage'
 import type { Blog } from '../types/blog'
@@ -9,42 +9,51 @@ import '../components/blog/AdminBlogList.css'
 export default function AdminEditorPage() {
   const { id } = useParams<{ id?: string }>()
   const navigate = useNavigate()
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const { user, loading: authLoading, logout } = useAuth()
+
+  const handleLogout = async () => {
+    await logout()
+    navigate('/admin/login')
+  }
   const [showList, setShowList] = useState(!id)
   const [blogs, setBlogs] = useState<Blog[]>([])
-
-  useEffect(() => {
-    // Check if already authenticated in this session
-    const authStatus = sessionStorage.getItem('admin_authenticated')
-    if (authStatus === 'true') {
-      setIsAuthenticated(true)
-      loadBlogs()
-    }
-  }, [])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     if (id) {
       setShowList(false)
+      setIsLoading(false)
     } else {
       setShowList(true)
-      loadBlogs()
+      if (user) {
+        loadBlogs()
+      } else {
+        setIsLoading(false)
+      }
     }
-  }, [id])
+  }, [id, user])
 
-  const loadBlogs = () => {
-    const allBlogs = getAllBlogs()
-    setBlogs(allBlogs.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
+  const loadBlogs = async () => {
+    try {
+      setIsLoading(true)
+      const allBlogs = await getAllBlogs()
+      setBlogs(allBlogs.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
+    } catch (error: any) {
+      console.error('Failed to load blogs:', error)
+      setBlogs([])
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  const handleAuthenticated = () => {
-    setIsAuthenticated(true)
-    loadBlogs()
-  }
-
-  const handleDelete = (blogId: string) => {
+  const handleDelete = async (blogId: string) => {
     if (confirm('Are you sure you want to delete this blog?')) {
-      deleteBlog(blogId)
-      loadBlogs()
+      try {
+        await deleteBlog(blogId)
+        await loadBlogs()
+      } catch (error: any) {
+        alert('Failed to delete blog: ' + (error?.message || 'Unknown error'))
+      }
     }
   }
 
@@ -56,8 +65,24 @@ export default function AdminEditorPage() {
     })
   }
 
-  if (!isAuthenticated) {
-    return <AdminAuth onAuthenticated={handleAuthenticated} />
+  if (authLoading || isLoading) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: '1.125rem',
+        color: '#718096'
+      }}>
+        Loading...
+      </div>
+    )
+  }
+
+  if (!user) {
+    navigate('/admin/login')
+    return null
   }
 
   if (showList) {
@@ -66,19 +91,28 @@ export default function AdminEditorPage() {
         <div className="admin-blog-list__container">
           <div className="admin-blog-list__header">
             <h1 className="admin-blog-list__title">Blog Management</h1>
-            <button
-              onClick={() => navigate('/adminblogs/editor/new')}
-              className="admin-blog-list__new-button"
-            >
-              + New Blog
-            </button>
+            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+              <button
+                onClick={handleLogout}
+                className="admin-blog-list__new-button"
+                style={{ background: '#e53e3e' }}
+              >
+                Logout
+              </button>
+              <button
+                onClick={() => navigate('/admin/editor/new')}
+                className="admin-blog-list__new-button"
+              >
+                + New Blog
+              </button>
+            </div>
           </div>
 
           {blogs.length === 0 ? (
             <div className="admin-blog-list__empty">
               <p>No blogs yet. Create your first blog!</p>
               <button
-                onClick={() => navigate('/adminblogs/editor/new')}
+                onClick={() => navigate('/admin/editor/new')}
                 className="admin-blog-list__new-button"
               >
                 Create Blog
@@ -97,7 +131,7 @@ export default function AdminEditorPage() {
                   <p className="admin-blog-card__date">{formatDate(blog.createdAt)}</p>
                   <div className="admin-blog-card__actions">
                     <button
-                      onClick={() => navigate(`/adminblogs/editor/${blog.id}`)}
+                      onClick={() => navigate(`/admin/editor/${blog.id}`)}
                       className="admin-blog-card__button admin-blog-card__button--edit"
                     >
                       Edit

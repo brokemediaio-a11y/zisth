@@ -16,21 +16,24 @@ export default function BlogDetail() {
       return
     }
 
-    const loadBlog = () => {
-      setIsLoading(true)
-      const foundBlog = getBlogById(id)
-      if (!foundBlog || !foundBlog.published) {
+    const loadBlog = async () => {
+      try {
+        setIsLoading(true)
+        const foundBlog = await getBlogById(id)
+        if (!foundBlog || !foundBlog.published) {
+          navigate('/blogs')
+          return
+        }
+        setBlog(foundBlog)
+      } catch (error: any) {
+        console.error('Failed to load blog:', error)
         navigate('/blogs')
-        return
+      } finally {
+        setIsLoading(false)
       }
-      setBlog(foundBlog)
-      setIsLoading(false)
     }
 
     loadBlog()
-    // Refresh blog every 2 seconds
-    const interval = setInterval(loadBlog, 2000)
-    return () => clearInterval(interval)
   }, [id, navigate])
 
   const formatDate = (dateString: string) => {

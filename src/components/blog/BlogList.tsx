@@ -9,17 +9,20 @@ export default function BlogList() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const loadBlogs = () => {
-      setIsLoading(true)
-      const publishedBlogs = getPublishedBlogs()
-      setBlogs(publishedBlogs)
-      setIsLoading(false)
+    const loadBlogs = async () => {
+      try {
+        setIsLoading(true)
+        const publishedBlogs = await getPublishedBlogs()
+        setBlogs(publishedBlogs)
+      } catch (error: any) {
+        console.error('Failed to load blogs:', error)
+        setBlogs([])
+      } finally {
+        setIsLoading(false)
+      }
     }
 
     loadBlogs()
-    // Refresh blogs every 2 seconds to catch new posts
-    const interval = setInterval(loadBlogs, 2000)
-    return () => clearInterval(interval)
   }, [])
 
   const formatDate = (dateString: string) => {

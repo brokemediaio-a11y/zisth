@@ -65,6 +65,17 @@
   font-size: 0.875rem;
 }
 
+.blog-editor__success {
+  padding: var(--space-md);
+  margin-bottom: var(--space-lg);
+  background: #d1fae5;
+  border: 1px solid #a7f3d0;
+  border-radius: var(--radius-md);
+  color: #065f46;
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+}
+
 .blog-editor__form {
   display: flex;
   flex-direction: column;

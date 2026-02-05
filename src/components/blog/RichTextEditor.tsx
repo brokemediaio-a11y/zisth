@@ -5,6 +5,7 @@ import Link from '@tiptap/extension-link'
 import Image from '@tiptap/extension-image'
 import Placeholder from '@tiptap/extension-placeholder'
 import Underline from '@tiptap/extension-underline'
+import { uploadImage } from '../../lib/storage'
 import './RichTextEditor.css'
 
 export interface RichTextEditorProps {
@@ -56,9 +57,18 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
         const file = imageItem?.getAsFile()
         if (!file) return false
 
-        void readImageAsDataUrl(file).then((src) => {
-          editor?.chain().focus().setImage({ src }).run()
-        })
+        // Upload to Firebase Storage
+        void uploadImage(file, 'blog-images')
+          .then((src) => {
+            editor?.chain().focus().setImage({ src }).run()
+          })
+          .catch((error) => {
+            console.error('Failed to upload image:', error)
+            // Fallback to base64 if upload fails
+            return readImageAsDataUrl(file).then((src) => {
+              editor?.chain().focus().setImage({ src }).run()
+            })
+          })
         return true
       },
       handleDrop: (_view, event) => {
@@ -68,12 +78,14 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
         if (imageFiles.length === 0) return false
 
         e.preventDefault()
-        void Promise.all(imageFiles.map(readImageAsDataUrl)).then((srcs) => {
-          const chain = editor?.chain().focus()
-          if (!chain) return
-          srcs.forEach((src) => chain.setImage({ src }))
-          chain.run()
-        })
+        // Upload all images to Firebase Storage
+        void Promise.all(imageFiles.map((file) => uploadImage(file, 'blog-images').catch(() => readImageAsDataUrl(file))))
+          .then((srcs) => {
+            const chain = editor?.chain().focus()
+            if (!chain) return
+            srcs.forEach((src) => chain.setImage({ src }))
+            chain.run()
+          })
         return true
       },
     },
@@ -120,8 +132,17 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
     const file = e.target.files?.[0]
     if (!file) return
     if (!file.type.startsWith('image/')) return
-    const src = await readImageAsDataUrl(file)
-    editor.chain().focus().setImage({ src }).run()
+    
+    try {
+      // Upload to Firebase Storage
+      const src = await uploadImage(file, 'blog-images')
+      editor.chain().focus().setImage({ src }).run()
+    } catch (error) {
+      console.error('Failed to upload image:', error)
+      // Fallback to base64 if upload fails
+      const src = await readImageAsDataUrl(file)
+      editor.chain().focus().setImage({ src }).run()
+    }
     e.target.value = ''
   }
 

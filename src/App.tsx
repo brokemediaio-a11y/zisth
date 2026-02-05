@@ -7,7 +7,9 @@ import Testimonials from './components/sections/Testimonials'
 import ContactUs from './components/sections/ContactUs'
 import BlogsPage from './pages/BlogsPage'
 import BlogDetailPage from './pages/BlogDetailPage'
+import AdminLoginPage from './pages/AdminLoginPage'
 import AdminEditorPage from './pages/AdminEditorPage'
+import ProtectedRoute from './components/ProtectedRoute'
 import './App.css'
 
 function App() {
@@ -30,6 +32,24 @@ function App() {
         />
         <Route path="/blogs" element={<BlogsPage />} />
         <Route path="/blogs/:id" element={<BlogDetailPage />} />
+        <Route path="/admin/login" element={<AdminLoginPage />} />
+        <Route
+          path="/admin/editor"
+          element={
+            <ProtectedRoute>
+              <AdminEditorPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/editor/:id"
+          element={
+            <ProtectedRoute>
+              <AdminEditorPage />
+            </ProtectedRoute>
+          }
+        />
+        {/* Legacy routes redirect */}
         <Route path="/adminblogs/editor" element={<AdminEditorPage />} />
         <Route path="/adminblogs/editor/:id" element={<AdminEditorPage />} />
       </Routes>

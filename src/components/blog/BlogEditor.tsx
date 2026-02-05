@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect, type FormEvent } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { saveBlog, getBlogById, generateExcerpt } from '../../lib/blogStorage'
+import { uploadImage } from '../../lib/storage'
 import './BlogEditor.css'
 import RichTextEditor from './RichTextEditor'
 
@@ -17,28 +18,38 @@ export default function BlogEditor() {
   const [tags, setTags] = useState('')
   const [isSaving, setIsSaving] = useState(false)
   const [error, setError] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
 
   useEffect(() => {
-    if (isEditing && id) {
-      const blog = getBlogById(id)
-      if (blog) {
-        setTitle(blog.title)
-        setContent(blog.content)
-        setPublished(blog.published)
-        setFeaturedImage(blog.featuredImage || '')
-        setTags(blog.tags?.join(', ') || '')
-      } else {
-        setError('Blog not found')
+    const loadBlog = async () => {
+      if (isEditing && id) {
+        try {
+          const blog = await getBlogById(id)
+          if (blog) {
+            setTitle(blog.title)
+            setContent(blog.content)
+            setPublished(blog.published)
+            setFeaturedImage(blog.featuredImage || '')
+            setTags(blog.tags?.join(', ') || '')
+            setError('')
+          } else {
+            setError('Blog not found')
+          }
+        } catch (err: any) {
+          setError(err?.message || 'Failed to load blog')
+        }
+        return
       }
-      return
+      // Creating a new blog (or route changed away from an edit)
+      setTitle('')
+      setContent('')
+      setPublished(false)
+      setFeaturedImage('')
+      setTags('')
+      setError('')
     }
-    // Creating a new blog (or route changed away from an edit)
-    setTitle('')
-    setContent('')
-    setPublished(false)
-    setFeaturedImage('')
-    setTags('')
-    setError('')
+
+    loadBlog()
   }, [id, isEditing])
 
   const readImageAsDataUrl = (file: File) =>
@@ -60,8 +71,16 @@ export default function BlogEditor() {
 
   const setFeaturedFromFile = async (file: File) => {
     if (!file.type.startsWith('image/')) return
-    const src = await readImageAsDataUrl(file)
-    setFeaturedImage(src)
+    try {
+      // Upload to Firebase Storage instead of using base64
+      const storageUrl = await uploadImage(file, 'blog-featured-images')
+      setFeaturedImage(storageUrl)
+    } catch (error: any) {
+      console.error('Failed to upload featured image:', error)
+      // Fallback to base64 if upload fails
+      const src = await readImageAsDataUrl(file)
+      setFeaturedImage(src)
+    }
   }
 
   const onFeaturedUploadClick = () => {
@@ -94,6 +113,7 @@ export default function BlogEditor() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setError('')
+    setSuccessMessage('')
 
     if (!title.trim()) {
       setError('Title is required')
@@ -120,19 +140,16 @@ export default function BlogEditor() {
       }
 
       console.log('Saving blog:', { title: blogData.title, published: blogData.published, id: blogData.id })
-      const savedBlog = saveBlog(blogData)
+      const savedBlog = await saveBlog(blogData)
       console.log('Blog saved successfully:', savedBlog.id)
       
-      // Verify it was saved
-      const verify = getBlogById(savedBlog.id)
-      if (!verify) {
-        throw new Error('Blog was not found after saving. Storage may be full.')
-      }
+      // Show success message
+      setSuccessMessage(published ? 'Blog published successfully!' : 'Blog saved as draft!')
       
-      // Redirect to admin list after saving
+      // Redirect to admin list after 1.5 seconds
       setTimeout(() => {
-        navigate('/adminblogs/editor')
-      }, 500)
+        navigate('/admin/editor')
+      }, 1500)
     } catch (err: any) {
       const errorMessage = err?.message || 'Failed to save blog. Please try again.'
       setError(errorMessage)
@@ -151,7 +168,7 @@ export default function BlogEditor() {
           <div className="blog-editor__header-actions">
             <button
               type="button"
-              onClick={() => navigate('/adminblogs/editor')}
+              onClick={() => navigate('/admin/editor')}
               className="blog-editor__back-button"
             >
               ← Back to List
@@ -169,6 +186,12 @@ export default function BlogEditor() {
         {error && (
           <div className="blog-editor__error">
             {error}
+          </div>
+        )}
+
+        {successMessage && (
+          <div className="blog-editor__success">
+            {successMessage}
           </div>
         )}
 
