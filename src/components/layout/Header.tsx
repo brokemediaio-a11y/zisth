@@ -9,7 +9,7 @@ import './Header.css'
 const navLinks = [
   { title: 'Home', href: '/' },
   { title: 'Services', href: '#services' },
-  { title: 'About us', href: '#about' },
+  { title: 'About us', href: '/about' },
   { title: 'Blogs', href: '/blogs' },
   { title: 'Research', href: '#research' },
   { title: 'portfolio', href: '#portfolio' },
@@ -23,7 +23,7 @@ export default function Header() {
     <header className="header">
       <div className="header__bar">
         <Link to="/" className="header__logo" aria-label="Zisth home">
-          Zisth
+          <img src="/zisthlogo.png" alt="Zisth" className="header__logo-img" />
         </Link>
 
         <div className="header__dock-wrap">

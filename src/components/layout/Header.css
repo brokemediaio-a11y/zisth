@@ -21,16 +21,21 @@
 }
 
 .header__logo {
-  font-weight: var(--font-weight-bold);
-  font-size: 1.25rem;
-  color: var(--color-text);
+  display: flex;
+  align-items: center;
   text-decoration: none;
-  letter-spacing: -0.02em;
   flex-shrink: 0;
+  height: 2.5rem;
 }
 
-.header__logo:hover {
-  color: var(--color-text);
+.header__logo-img {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  transition: opacity 0.2s ease;
+}
+
+.header__logo:hover .header__logo-img {
   opacity: 0.85;
 }
 
