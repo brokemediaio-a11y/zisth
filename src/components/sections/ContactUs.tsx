@@ -1,8 +1,12 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { CheckCircle2 } from 'lucide-react'
+import emailjs from '@emailjs/browser'
 import Stepper, { Step } from '../ui/Stepper'
 import FloatingLines from '../ui/FloatingLines'
+import { useRecaptcha } from '../../hooks/useRecaptcha'
+import { useRateLimit } from '../../hooks/useRateLimit'
+import { EMAILJS_CONFIG, RECAPTCHA_CONFIG } from '../../config/emailjs'
 import './ContactUs.css'
 
 export default function ContactUs() {
@@ -13,26 +17,162 @@ export default function ContactUs() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [errorMessage, setErrorMessage] = useState('')
+  const { executeRecaptcha } = useRecaptcha()
+  const { canSubmit, recordSubmission, getRemainingSubmissions } = useRateLimit()
+
+  // Initialize EmailJS
+  useEffect(() => {
+    if (EMAILJS_CONFIG.PUBLIC_KEY && EMAILJS_CONFIG.PUBLIC_KEY !== 'YOUR_EMAILJS_PUBLIC_KEY') {
+      emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY)
+    }
+  }, [])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
+  /**
+   * Validate form data
+   */
+  const validateForm = (): { valid: boolean; error?: string } => {
+    if (!formData.name.trim()) {
+      return { valid: false, error: 'Name is required' }
+    }
+    if (formData.name.trim().length < 2) {
+      return { valid: false, error: 'Name must be at least 2 characters' }
+    }
+    if (formData.name.trim().length > 100) {
+      return { valid: false, error: 'Name must not exceed 100 characters' }
+    }
+
+    if (!formData.email.trim()) {
+      return { valid: false, error: 'Email is required' }
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(formData.email.trim())) {
+      return { valid: false, error: 'Please enter a valid email address' }
+    }
+    if (formData.email.trim().length > 255) {
+      return { valid: false, error: 'Email must not exceed 255 characters' }
+    }
+
+    if (!formData.message.trim()) {
+      return { valid: false, error: 'Message is required' }
+    }
+    if (formData.message.trim().length < 10) {
+      return { valid: false, error: 'Message must be at least 10 characters' }
+    }
+    if (formData.message.trim().length > 5000) {
+      return { valid: false, error: 'Message must not exceed 5000 characters' }
+    }
+
+    return { valid: true }
+  }
+
+  /**
+   * Handle form submission with EmailJS and reCAPTCHA protection
+   */
   const handleFinalStepCompleted = async () => {
+    // Reset status
     setIsSubmitting(true)
     setSubmitStatus('idle')
+    setErrorMessage('')
 
-    // Simulate form submission
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      setSubmitStatus('success')
-      setFormData({ name: '', email: '', message: '' })
-    } catch (error) {
+      // 1. Validate form data
+      const validation = validateForm()
+      if (!validation.valid) {
+        setSubmitStatus('error')
+        setErrorMessage(validation.error || 'Please check your input')
+        return
+      }
+
+      // 2. Check rate limit
+      if (!canSubmit()) {
+        const remaining = getRemainingSubmissions()
+        setSubmitStatus('error')
+        setErrorMessage(
+          `Too many submissions. Please wait before trying again. (${remaining} remaining)`
+        )
+        return
+      }
+
+      // 3. Execute reCAPTCHA v3
+      let recaptchaToken = ''
+      try {
+        recaptchaToken = await executeRecaptcha()
+      } catch (recaptchaError) {
+        console.error('reCAPTCHA error:', recaptchaError)
+        setSubmitStatus('error')
+        setErrorMessage('Security verification failed. Please refresh and try again.')
+        return
+      }
+
+      // 4. Check EmailJS configuration
+      if (
+        EMAILJS_CONFIG.PUBLIC_KEY === 'YOUR_EMAILJS_PUBLIC_KEY' ||
+        EMAILJS_CONFIG.SERVICE_ID === 'YOUR_EMAILJS_SERVICE_ID' ||
+        EMAILJS_CONFIG.TEMPLATE_ID === 'YOUR_EMAILJS_TEMPLATE_ID'
+      ) {
+        setSubmitStatus('error')
+        setErrorMessage('Email service not configured. Please contact the administrator.')
+        console.error('EmailJS not configured. Please update src/config/emailjs.ts')
+        return
+      }
+
+      // 5. Prepare template parameters for EmailJS
+      const templateParams = {
+        from_name: formData.name.trim(),
+        from_email: formData.email.trim(),
+        message: formData.message.trim(),
+        to_email: EMAILJS_CONFIG.RECEIVER_EMAIL,
+        recaptcha_token: recaptchaToken, // Include reCAPTCHA token
+      }
+
+      // 6. Send email via EmailJS
+      const response = await emailjs.send(
+        EMAILJS_CONFIG.SERVICE_ID,
+        EMAILJS_CONFIG.TEMPLATE_ID,
+        templateParams
+      )
+
+      // 7. Check response
+      if (response.status === 200) {
+        // Record successful submission for rate limiting
+        recordSubmission()
+
+        // Success - keep form data visible during success state
+        setSubmitStatus('success')
+        // Don't clear form data immediately - let user see what was submitted
+        
+        // Clear form data only after success message timeout
+        setTimeout(() => {
+          setFormData({ name: '', email: '', message: '' })
+        }, 5000)
+      } else {
+        throw new Error('Email service returned an error')
+      }
+    } catch (error: any) {
+      // Handle errors
+      console.error('Email submission error:', error)
       setSubmitStatus('error')
+
+      // Provide user-friendly error messages
+      if (error?.text) {
+        setErrorMessage(error.text)
+      } else if (error?.message) {
+        setErrorMessage(error.message)
+      } else {
+        setErrorMessage('Failed to send message. Please try again later.')
+      }
     } finally {
       setIsSubmitting(false)
-      setTimeout(() => setSubmitStatus('idle'), 3000)
+      setTimeout(() => {
+        setSubmitStatus('idle')
+        setErrorMessage('')
+      }, 5000)
     }
   }
 
@@ -163,16 +303,24 @@ export default function ContactUs() {
                   <div className="contact-us__review">
                     <div className="contact-us__review-item">
                       <span className="contact-us__review-label">Name:</span>
-                      <span className="contact-us__review-value">{formData.name || 'Not provided'}</span>
+                      <span className="contact-us__review-value">
+                        {formData.name.trim() || <span className="contact-us__review-empty">Not provided</span>}
+                      </span>
                     </div>
                     <div className="contact-us__review-item">
                       <span className="contact-us__review-label">Email:</span>
-                      <span className="contact-us__review-value">{formData.email || 'Not provided'}</span>
+                      <span className="contact-us__review-value">
+                        {formData.email.trim() || <span className="contact-us__review-empty">Not provided</span>}
+                      </span>
                     </div>
                     <div className="contact-us__review-item">
                       <span className="contact-us__review-label">Message:</span>
                       <span className="contact-us__review-value">
-                        {formData.message || 'Not provided'}
+                        {formData.message.trim() ? (
+                          <span className="contact-us__review-message">{formData.message.trim()}</span>
+                        ) : (
+                          <span className="contact-us__review-empty">Not provided</span>
+                        )}
                       </span>
                     </div>
                   </div>
@@ -200,7 +348,7 @@ export default function ContactUs() {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                     >
-                      Something went wrong. Please try again.
+                      {errorMessage || 'Something went wrong. Please try again.'}
                     </motion.div>
                   )}
                 </div>

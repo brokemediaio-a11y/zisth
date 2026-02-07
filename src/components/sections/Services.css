@@ -1,6 +1,7 @@
 .services {
   position: relative;
   width: 100%;
+  max-width: 100%;
   min-height: 100vh;
   min-height: 100dvh;
   background: var(--color-bg);
@@ -8,6 +9,7 @@
   margin-top: 0;
   box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
   border-radius: 24px 24px 0 0;
+  overflow-x: hidden;
 }
 
 .services__container {
@@ -22,6 +24,7 @@
   min-height: 100vh;
   min-height: 100dvh;
   justify-content: center;
+  overflow-x: hidden;
 }
 
 .services__heading {

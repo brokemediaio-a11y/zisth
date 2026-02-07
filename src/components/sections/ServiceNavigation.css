@@ -1,13 +1,26 @@
 .service-navigation {
   width: 100%;
+  max-width: 100%;
   display: flex;
   justify-content: center;
+  overflow-x: hidden;
+  position: relative;
 }
 
 .service-navigation__dock-wrapper {
   width: 100%;
   display: flex;
   justify-content: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+}
+
+.service-navigation__dock-wrapper::-webkit-scrollbar {
+  display: none;
 }
 
 .service-navigation__dock {
@@ -17,6 +30,7 @@
   align-items: center;
   overflow: visible;
   padding: 0 var(--space-lg);
+  display: flex;
 }
 
 /* Ensure dock items are visible and clickable */
@@ -36,8 +50,25 @@
   color: #fff;
 }
 
+/* Disable glass effect pseudo-elements for active state */
+.service-navigation__link--active::before,
+.service-navigation__dock .service-navigation__link--active::before,
+.service-navigation__link--active::after,
+.service-navigation__dock .service-navigation__link--active::after {
+  opacity: 0 !important;
+  display: none !important;
+}
+
 @media (max-width: 768px) {
+  .service-navigation__dock-wrapper {
+    justify-content: flex-start;
+    padding: 0;
+  }
+
   .service-navigation__dock {
     padding: 0 var(--space-sm);
+    justify-content: flex-start;
+    min-width: max-content;
+    width: auto;
   }
 }

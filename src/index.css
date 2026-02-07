@@ -29,8 +29,27 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 #root {
   min-height: 100vh;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+html {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Hide reCAPTCHA v3 badge */
+.grecaptcha-badge {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  position: absolute !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
 }

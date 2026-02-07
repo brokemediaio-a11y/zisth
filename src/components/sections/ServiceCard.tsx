@@ -1,11 +1,12 @@
 import { motion } from 'framer-motion'
+import { type LucideIcon } from 'lucide-react'
 import './ServiceCard.css'
 
 export interface Service {
   id: string
   title: string
   description: string
-  icon: string
+  icon: LucideIcon
 }
 
 export interface ServiceCardProps {
@@ -13,6 +14,7 @@ export interface ServiceCardProps {
 }
 
 export default function ServiceCard({ service }: ServiceCardProps) {
+  const IconComponent = service.icon
   return (
     <motion.div
       className="service-card"
@@ -27,7 +29,9 @@ export default function ServiceCard({ service }: ServiceCardProps) {
       }}
       layout
     >
-      <div className="service-card__icon">{service.icon}</div>
+      <div className="service-card__icon">
+        <IconComponent size={48} color="#252525" strokeWidth={1.5} />
+      </div>
       
       <h3 className="service-card__title">{service.title}</h3>
       

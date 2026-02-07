@@ -1,12 +1,12 @@
 import { useEffect, useRef } from 'react'
-import { FloatingDock } from '../ui/FloatingDock'
+import { FloatingDockDesktop } from '../ui/FloatingDock'
 import './ServiceNavigation.css'
 
 export interface Service {
   id: string
   title: string
   description: string
-  icon: string
+  icon?: unknown
 }
 
 export interface ServiceNavigationProps {
@@ -72,10 +72,9 @@ export default function ServiceNavigation({ services, activeId, onSelect }: Serv
   return (
     <div className="service-navigation" ref={dockRef}>
       <div className="service-navigation__dock-wrapper">
-        <FloatingDock
+        <FloatingDockDesktop
           items={navItems}
-          desktopClassName="service-navigation__dock"
-          mobileClassName="service-navigation__dock-mobile"
+          className="service-navigation__dock"
         />
       </div>
     </div>

@@ -13,7 +13,7 @@ import { cn } from '../../lib/utils'
 import './FloatingDock.css'
 
 const DOCK_DISTANCE = 220
-const DOCK_SPRING = { mass: 0.12, stiffness: 120, damping: 18 }
+const DOCK_SPRING = { mass: 0.08, stiffness: 200, damping: 15 }
 
 export interface FloatingDockItem {
   title: string
@@ -25,6 +25,7 @@ export interface FloatingDockProps {
   items: FloatingDockItem[]
   desktopClassName?: string
   mobileClassName?: string
+  showMobileMenu?: boolean
 }
 
 function DockItem({
@@ -49,12 +50,12 @@ function DockItem({
     return val - bounds.left - bounds.width / 2
   })
 
-  /* Text-only: scale (1 → 1.4) for a clear pop; smoother spring for fluid motion. */
+  /* Text-only: scale (1 → 1.2) for a subtle pop; faster spring for snappier motion. */
   /* When mouseX is Infinity (no hover), scale should be 1 (normal state) */
   const scaleTransform = useTransform(distance, (val) => {
     if (!isFinite(val) || Math.abs(val) > DOCK_DISTANCE) return 1
     const normalized = Math.abs(val) / DOCK_DISTANCE
-    return 1 + (0.4 * (1 - normalized))
+    return 1 + (0.2 * (1 - normalized))
   })
   const widthTransform = useTransform(distance, [-DOCK_DISTANCE, 0, DOCK_DISTANCE], [40, 56, 40])
   const heightTransform = useTransform(distance, [-DOCK_DISTANCE, 0, DOCK_DISTANCE], [40, 56, 40])
@@ -113,6 +114,7 @@ function DockItem({
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 4 }}
+                transition={{ duration: 0.15, ease: 'easeOut' }}
                 className="floating-dock__tooltip"
               >
                 {title}
@@ -142,6 +144,7 @@ function DockItem({
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 4 }}
+              transition={{ duration: 0.15, ease: 'easeOut' }}
               className="floating-dock__tooltip"
             >
               {title}
@@ -156,7 +159,7 @@ function DockItem({
   )
 }
 
-function FloatingDockDesktop({
+export function FloatingDockDesktop({
   items,
   className,
 }: {
@@ -232,7 +235,7 @@ function FloatingDockMobile({
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  transition={{ delay: (items.length - 1 - idx) * 0.04 }}
+                  transition={{ delay: (items.length - 1 - idx) * 0.02, duration: 0.2 }}
                   className="floating-dock-mobile__menu-item"
                 >
                   {isRoute ? (
@@ -264,11 +267,11 @@ function FloatingDockMobile({
   )
 }
 
-export function FloatingDock({ items, desktopClassName, mobileClassName }: FloatingDockProps) {
+export function FloatingDock({ items, desktopClassName, mobileClassName, showMobileMenu = true }: FloatingDockProps) {
   return (
     <>
       <FloatingDockDesktop items={items} className={desktopClassName} />
-      <FloatingDockMobile items={items} className={mobileClassName} />
+      {showMobileMenu && <FloatingDockMobile items={items} className={mobileClassName} />}
     </>
   )
 }

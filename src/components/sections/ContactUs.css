@@ -239,6 +239,19 @@
   font-size: 1rem;
   color: var(--color-text);
   word-break: break-word;
+  display: block;
+  margin-top: 0.25rem;
+}
+
+.contact-us__review-empty {
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.contact-us__review-message {
+  white-space: pre-wrap;
+  line-height: 1.6;
+  display: block;
 }
 
 .contact-us__submitting {

@@ -21,6 +21,11 @@
   }
 }
 
+/* Service navigation always shows desktop dock */
+.service-navigation__dock.floating-dock--desktop {
+  display: flex;
+}
+
 .floating-dock__link {
   text-decoration: none;
   color: inherit;
@@ -48,7 +53,7 @@
   justify-content: center;
   overflow: hidden;
   transform-origin: center center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, color 0.12s ease;
   z-index: 1;
   background: none;
   box-shadow: none;
@@ -66,7 +71,7 @@
   box-shadow: inset 0 0 17px -15px #000000;
   background-color: rgba(26, 26, 26, 0.17);
   opacity: 0;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.12s ease;
 }
 
 .floating-dock__link--text::after {
@@ -80,12 +85,12 @@
   filter: var(--dock-filter-url, none);
   -webkit-filter: var(--dock-filter-url, none);
   opacity: 0;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.12s ease;
 }
 
 /* Apply glass effect on hover */
 .floating-dock__link--text:hover {
-  transform: translateY(-1px) scale(1.05);
+  transform: translateY(-1px) scale(1.02);
   box-shadow: 0px 8px 28px rgba(0, 0, 0, 0.25);
   color: #050505;
 }
@@ -103,7 +108,7 @@
 .floating-dock__link--text .floating-dock__link-inner {
   position: relative;
   z-index: 1;
-  transition: text-shadow 0.2s ease, opacity 0.2s ease;
+  transition: text-shadow 0.12s ease, opacity 0.12s ease;
 }
 
 /* Apply text styling on hover to match glass effect */
@@ -121,7 +126,7 @@
   min-height: 40px;
   border-radius: var(--radius-full);
   background: var(--dock-item-bg);
-  transition: background-color 0.2s ease;
+  transition: background-color 0.12s ease;
 }
 
 .floating-dock__icon-wrapper:hover {
@@ -183,7 +188,7 @@
   background: var(--dock-item-bg);
   color: var(--color-text);
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.12s ease;
 }
 
 .floating-dock-mobile__trigger:hover {
@@ -220,7 +225,7 @@
   color: var(--color-text);
   text-decoration: none;
   border-radius: var(--radius-md);
-  transition: background-color 0.2s ease;
+  transition: background-color 0.12s ease;
 }
 
 .floating-dock-mobile__menu-link:hover {
