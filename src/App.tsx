@@ -10,9 +10,13 @@ import BlogsPage from './pages/BlogsPage'
 import BlogDetailPage from './pages/BlogDetailPage'
 import AboutUsPage from './pages/AboutUsPage'
 import ResearchPage from './pages/ResearchPage'
+import ContactPage from './pages/ContactPage'
+import PortfolioPage from './pages/PortfolioPage'
+import PortfolioDetailPage from './pages/PortfolioDetailPage'
 import AdminLoginPage from './pages/AdminLoginPage'
 import AdminEditorPage from './pages/AdminEditorPage'
 import ProtectedRoute from './components/ProtectedRoute'
+import WhatsAppButton from './components/ui/WhatsAppButton'
 import './App.css'
 
 function App() {
@@ -37,6 +41,9 @@ function App() {
         <Route path="/blogs/:id" element={<BlogDetailPage />} />
         <Route path="/about" element={<AboutUsPage />} />
         <Route path="/research" element={<ResearchPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/portfolio" element={<PortfolioPage />} />
+        <Route path="/portfolio/:id" element={<PortfolioDetailPage />} />
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route
           path="/admin/editor"
@@ -59,6 +66,7 @@ function App() {
         <Route path="/adminblogs/editor/:id" element={<AdminEditorPage />} />
       </Routes>
       <Footer />
+      <WhatsAppButton />
     </div>
   )
 }

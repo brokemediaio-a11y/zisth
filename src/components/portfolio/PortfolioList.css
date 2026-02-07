@@ -1,4 +1,4 @@
-.blog-list {
+.portfolio-list {
   min-height: 100vh;
   background: var(--color-bg);
   padding: var(--space-3xl) var(--space-xl);
@@ -6,46 +6,59 @@
   margin-top: 0;
 }
 
-.blog-list__container {
+.portfolio-list__container {
   max-width: var(--content-max-width);
   margin: 0 auto;
 }
 
-.blog-list__header {
+.portfolio-list__header {
   text-align: center;
   margin-bottom: var(--space-3xl);
 }
 
-.blog-list__title {
+.portfolio-list__title {
   margin: 40px 0 var(--space-md) 0;
   font-size: clamp(2.5rem, 6vw, 4rem);
   font-weight: var(--font-weight-bold);
   color: var(--color-text);
   font-family: var(--font-heading);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.blog-list__subtitle {
+.portfolio-list__title-text {
+  text-align: center;
+}
+
+.portfolio-list__subtitle {
   margin: 0;
   font-size: clamp(1rem, 2vw, 1.25rem);
   color: var(--color-text-muted);
 }
 
-.blog-list__loading,
-.blog-list__empty {
+.portfolio-list__toggle-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-3xl);
+}
+
+.portfolio-list__loading,
+.portfolio-list__empty {
   text-align: center;
   padding: var(--space-3xl);
   color: var(--color-text-muted);
   font-size: 1.125rem;
 }
 
-.blog-list__grid {
+.portfolio-list__grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: var(--space-2xl);
 }
 
-/* Blog Card */
-.blog-card {
+/* Portfolio Card */
+.portfolio-card {
   background: var(--glass-bg);
   backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
@@ -56,32 +69,34 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   display: flex;
   flex-direction: column;
+  text-decoration: none;
+  color: inherit;
 }
 
-.blog-card:hover {
+.portfolio-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
 }
 
-.blog-card__image-wrapper {
+.portfolio-card__image-wrapper {
   width: 100%;
   height: 240px;
   overflow: hidden;
   background: var(--color-bg);
 }
 
-.blog-card__image {
+.portfolio-card__image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
 }
 
-.blog-card:hover .blog-card__image {
+.portfolio-card:hover .portfolio-card__image {
   transform: scale(1.05);
 }
 
-.blog-card__content {
+.portfolio-card__content {
   padding: var(--space-xl);
   display: flex;
   flex-direction: column;
@@ -89,7 +104,7 @@
   gap: var(--space-md);
 }
 
-.blog-card__meta {
+.portfolio-card__meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -99,25 +114,20 @@
   color: var(--color-text-muted);
 }
 
-.blog-card__date {
-  font-weight: var(--font-weight-medium);
-}
-
-.blog-card__tags {
-  display: flex;
-  gap: var(--space-xs);
-  flex-wrap: wrap;
-}
-
-.blog-card__tag {
+.portfolio-card__category {
   padding: 0.25rem 0.75rem;
-  background: var(--dock-item-bg);
+  background: var(--button-primary-bg);
+  color: var(--button-primary-text);
   border-radius: var(--radius-sm);
   font-size: 0.75rem;
+  font-weight: var(--font-weight-semibold);
+}
+
+.portfolio-card__year {
   font-weight: var(--font-weight-medium);
 }
 
-.blog-card__title {
+.portfolio-card__title {
   margin: 0;
   font-size: 1.5rem;
   font-weight: var(--font-weight-bold);
@@ -126,46 +136,38 @@
   line-height: 1.3;
 }
 
-.blog-card__title a {
-  color: inherit;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.blog-card__title a:hover {
-  color: var(--button-primary-bg);
-}
-
-.blog-card__excerpt {
+.portfolio-card__description {
   margin: 0;
   color: var(--color-text-muted);
   line-height: var(--line-height-relaxed);
   flex: 1;
 }
 
-.blog-card__link {
-  align-self: flex-start;
-  font-weight: var(--font-weight-medium);
-  color: var(--button-primary-bg);
-  text-decoration: none;
-  transition: color 0.2s ease;
+.portfolio-card__technologies {
+  display: flex;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
 }
 
-.blog-card__link:hover {
-  color: var(--button-primary-hover-bg);
+.portfolio-card__tech {
+  padding: 0.25rem 0.75rem;
+  background: var(--dock-item-bg);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-medium);
 }
 
 @media (max-width: 768px) {
-  .blog-list {
+  .portfolio-list {
     padding: var(--space-2xl) var(--space-md);
   }
 
-  .blog-list__grid {
+  .portfolio-list__grid {
     grid-template-columns: 1fr;
     gap: var(--space-xl);
   }
 
-  .blog-card__content {
+  .portfolio-card__content {
     padding: var(--space-lg);
   }
 }

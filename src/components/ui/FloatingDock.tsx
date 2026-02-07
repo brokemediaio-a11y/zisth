@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import {
   AnimatePresence,
   motion,
@@ -41,6 +41,8 @@ function DockItem({
   const ref = useRef<HTMLElement | null>(null)
   const [hovered, setHovered] = useState(false)
   const isTextOnly = icon == null
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const distance = useTransform(mouseX, (val) => {
     if (val === Infinity) return Infinity
@@ -69,6 +71,32 @@ function DockItem({
 
   // Check if href is a route (starts with /) or hash/anchor link
   const isRoute = href.startsWith('/')
+  const isHashLink = href.startsWith('#')
+
+  // Handle hash links (like #contact) - navigate to home first if not on home page
+  const handleHashClick = (e: React.MouseEvent) => {
+    if (isHashLink && location.pathname !== '/') {
+      e.preventDefault()
+      const hashId = href.substring(1)
+      // Navigate to home first
+      navigate('/')
+      // Wait for navigation and page render, then scroll
+      setTimeout(() => {
+        const element = document.getElementById(hashId)
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' })
+        } else {
+          // Retry if element not found
+          setTimeout(() => {
+            const element = document.getElementById(hashId)
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth' })
+            }
+          }, 500)
+        }
+      }, 300)
+    }
+  }
 
   if (isTextOnly) {
     if (isRoute) {
@@ -87,7 +115,8 @@ function DockItem({
     return (
       <motion.a
         ref={ref as React.RefObject<HTMLAnchorElement>}
-        href={href}
+        href={location.pathname === '/' ? href : `/${href}`}
+        onClick={handleHashClick}
         style={{ scale }}
         className="floating-dock__link floating-dock__link--text"
         aria-label={title}
@@ -128,7 +157,12 @@ function DockItem({
   }
 
   return (
-    <a href={href} className="floating-dock__link" aria-label={title}>
+    <a 
+      href={location.pathname === '/' ? href : (isHashLink ? `/${href}` : href)}
+      onClick={handleHashClick}
+      className="floating-dock__link" 
+      aria-label={title}
+    >
       <motion.div
         ref={ref as React.RefObject<HTMLDivElement>}
         style={{ width, height }}

@@ -1,0 +1,87 @@
+.contact-page {
+  min-height: 100vh;
+  background: var(--color-bg);
+  padding: var(--space-3xl) var(--space-xl);
+  padding-top: 12px;
+  margin-top: 0;
+}
+
+.contact-page__header-wrapper {
+  width: 100%;
+  max-width: 100%;
+  padding: 0 var(--space-xl);
+  padding-top: 10px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.contact-page__header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.contact-page__heading {
+  margin: 40px 0 var(--space-md) 0;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.contact-page__subtext {
+  margin: 0;
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-muted);
+}
+
+.contact-page__content {
+  position: relative;
+}
+
+/* Hide the header in ContactUs component when used in ContactPage */
+.contact-page__content .contact-us__header {
+  display: none;
+}
+
+/* Make ContactUs section full width with rounded corners */
+.contact-page__content .contact-us {
+  width: 100%;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+.contact-page__content .contact-us__container {
+  max-width: 100%;
+  padding: 0 var(--section-padding-x);
+}
+
+@media (max-width: 768px) {
+  .contact-page {
+    padding: var(--space-2xl) var(--space-md);
+    padding-top: var(--space-xl);
+  }
+
+  .contact-page__header-wrapper {
+    padding: 0 var(--space-md);
+    padding-top: var(--space-xl);
+    overflow-x: hidden;
+    position: relative;
+    z-index: 1;
+  }
+
+  .contact-page__content .contact-us__container {
+    padding: 0 1rem;
+  }
+}

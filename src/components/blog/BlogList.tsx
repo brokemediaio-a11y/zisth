@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getPublishedBlogs } from '../../lib/blogStorage'
 import type { Blog } from '../../types/blog'
+import TextType from '../ui/TextType'
 import './BlogList.css'
 
 export default function BlogList() {
@@ -48,7 +49,15 @@ export default function BlogList() {
     <div className="blog-list">
       <div className="blog-list__container">
         <header className="blog-list__header">
-          <h1 className="blog-list__title">Blog</h1>
+          <h1 className="blog-list__title">
+            <TextType
+              text={["Blogs"]}
+              typingSpeed={110}
+              pauseDuration={1500}
+              showCursor={true}
+              cursorCharacter="|"
+            />
+          </h1>
           <p className="blog-list__subtitle">
             Insights, research, and updates from our team
           </p>

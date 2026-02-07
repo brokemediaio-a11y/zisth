@@ -1,0 +1,178 @@
+.portfolio-detail {
+  min-height: 100vh;
+  background: var(--color-bg);
+  padding: var(--space-3xl) var(--space-xl);
+  padding-top: calc(var(--space-3xl) + 2rem);
+}
+
+.portfolio-detail__container {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+}
+
+.portfolio-detail__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-2xl);
+  color: var(--color-text);
+  text-decoration: none;
+  font-weight: var(--font-weight-medium);
+  transition: color 0.2s ease;
+}
+
+.portfolio-detail__back:hover {
+  color: var(--button-primary-bg);
+}
+
+.portfolio-detail__article {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2xl);
+  box-shadow: var(--glass-shadow);
+}
+
+.portfolio-detail__header {
+  margin-bottom: var(--space-2xl);
+}
+
+.portfolio-detail__meta {
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+  margin-bottom: var(--space-lg);
+  flex-wrap: wrap;
+}
+
+.portfolio-detail__category {
+  padding: 0.5rem 1rem;
+  background: var(--button-primary-bg);
+  color: var(--button-primary-text);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+}
+
+.portfolio-detail__year {
+  padding: 0.5rem 1rem;
+  background: var(--dock-item-bg);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+}
+
+.portfolio-detail__title {
+  margin: 0 0 var(--space-md) 0;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  line-height: var(--line-height-tight);
+}
+
+.portfolio-detail__description {
+  margin: 0;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-muted);
+}
+
+.portfolio-detail__image-wrapper {
+  width: 100%;
+  margin-bottom: var(--space-2xl);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-bg);
+}
+
+.portfolio-detail__image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.portfolio-detail__technologies {
+  margin-bottom: var(--space-2xl);
+  padding: var(--space-xl);
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+}
+
+.portfolio-detail__technologies-title {
+  margin: 0 0 var(--space-md) 0;
+  font-size: 1.25rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  font-family: var(--font-heading);
+}
+
+.portfolio-detail__technologies-list {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.portfolio-detail__tech {
+  padding: 0.5rem 1rem;
+  background: var(--dock-item-bg);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+}
+
+.portfolio-detail__content {
+  font-size: 1.125rem;
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text);
+}
+
+.portfolio-detail__content h2 {
+  margin: var(--space-2xl) 0 var(--space-md) 0;
+  font-size: 1.75rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  font-family: var(--font-heading);
+}
+
+.portfolio-detail__content h2:first-child {
+  margin-top: 0;
+}
+
+.portfolio-detail__content p {
+  margin: 0 0 var(--space-md) 0;
+}
+
+.portfolio-detail__content ul {
+  margin: 0 0 var(--space-md) 0;
+  padding-left: var(--space-xl);
+}
+
+.portfolio-detail__content li {
+  margin-bottom: var(--space-sm);
+}
+
+@media (max-width: 768px) {
+  .portfolio-detail {
+    padding: var(--space-2xl) var(--space-md);
+    padding-top: calc(var(--space-2xl) + 2rem);
+  }
+
+  .portfolio-detail__article {
+    padding: var(--space-xl);
+  }
+
+  .portfolio-detail__content {
+    font-size: 1rem;
+  }
+
+  .portfolio-detail__content h2 {
+    font-size: 1.5rem;
+  }
+}
