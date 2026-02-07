@@ -9,6 +9,7 @@ import ContactUs from './components/sections/ContactUs'
 import BlogsPage from './pages/BlogsPage'
 import BlogDetailPage from './pages/BlogDetailPage'
 import AboutUsPage from './pages/AboutUsPage'
+import ResearchPage from './pages/ResearchPage'
 import AdminLoginPage from './pages/AdminLoginPage'
 import AdminEditorPage from './pages/AdminEditorPage'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -35,6 +36,7 @@ function App() {
         <Route path="/blogs" element={<BlogsPage />} />
         <Route path="/blogs/:id" element={<BlogDetailPage />} />
         <Route path="/about" element={<AboutUsPage />} />
+        <Route path="/research" element={<ResearchPage />} />
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route
           path="/admin/editor"

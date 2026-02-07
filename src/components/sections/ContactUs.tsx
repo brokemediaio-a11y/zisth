@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Send, CheckCircle2 } from 'lucide-react'
+import { CheckCircle2 } from 'lucide-react'
 import Stepper, { Step } from '../ui/Stepper'
 import FloatingLines from '../ui/FloatingLines'
 import './ContactUs.css'
