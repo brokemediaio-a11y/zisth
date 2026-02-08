@@ -11,9 +11,10 @@ export interface Service {
 
 export interface ServiceCardProps {
   service: Service
+  isHardware?: boolean
 }
 
-export default function ServiceCard({ service }: ServiceCardProps) {
+export default function ServiceCard({ service, isHardware = false }: ServiceCardProps) {
   const IconComponent = service.icon
   return (
     <motion.div
@@ -38,12 +39,18 @@ export default function ServiceCard({ service }: ServiceCardProps) {
       <p className="service-card__description">{service.description}</p>
       
       <div className="service-card__actions">
-        <a href="#contact" className="service-card__btn service-card__btn--primary">
-          GET A QUOTE
+        <a href="/contact" className="service-card__btn service-card__btn--primary">
+          <span>Book a consultation</span>
         </a>
-        <a href="#portfolio" className="service-card__btn service-card__btn--secondary">
-          VIEW PORTFOLIO →
-        </a>
+        {isHardware ? (
+          <a href={`/hardware/${service.id}`} className="service-card__btn service-card__btn--secondary">
+            <span>View Services →</span>
+          </a>
+        ) : (
+          <a href="/portfolio" className="service-card__btn service-card__btn--secondary">
+            <span>VIEW PORTFOLIO →</span>
+          </a>
+        )}
       </div>
     </motion.div>
   )

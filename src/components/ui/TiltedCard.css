@@ -32,6 +32,20 @@
   .tilted-card-caption {
     display: none;
   }
+
+  .tilted-card-content {
+    padding: var(--space-3xl);
+  }
+
+  .tilted-card-title {
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+  }
+
+  .tilted-card-description {
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+  }
 }
 
 .tilted-card-inner {

@@ -1,0 +1,309 @@
+.hardware-service-page {
+  min-height: 100vh;
+  background: var(--color-bg);
+  padding: var(--space-3xl) var(--space-xl);
+  padding-top: calc(var(--space-3xl) + 2rem);
+}
+
+.hardware-service-page__container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.hardware-service-page__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-2xl);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.hardware-service-page__back:hover {
+  color: var(--button-primary-bg);
+}
+
+.hardware-service-page__article {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-3xl);
+  box-shadow: var(--glass-shadow);
+}
+
+.hardware-service-page__header {
+  margin-bottom: var(--space-3xl);
+  text-align: center;
+}
+
+.hardware-service-page__title {
+  margin: 0 0 var(--space-lg) 0;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hardware-service-page__title-text {
+  text-align: center;
+}
+
+.hardware-service-page__description {
+  margin: 0;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-muted);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hardware-service-page__content {
+  margin-bottom: var(--space-3xl);
+}
+
+.hardware-service-page__main {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: var(--space-3xl);
+  align-items: start;
+}
+
+.hardware-service-page__sidebar {
+  position: sticky;
+  top: var(--space-2xl);
+}
+
+.hardware-service-page__main-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xl);
+  width: 100%;
+  align-items: center;
+}
+
+.hardware-service-page__section {
+  margin-bottom: var(--space-2xl);
+}
+
+.hardware-service-page__section-title {
+  margin: 0 0 var(--space-md) 0;
+  padding-left: var(--space-xl);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  font-family: var(--font-heading);
+}
+
+.hardware-service-page__section-intro {
+  margin: 0 0 var(--space-xl) 0;
+  font-size: 1.125rem;
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-muted);
+}
+
+.hardware-service-page__features {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xl);
+  margin-top: var(--space-xl);
+  width: 100%;
+  max-width: 600px;
+  justify-items: center;
+  align-items: start;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.hardware-service-page__features > * {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.hardware-service-page__cta {
+  margin-top: var(--space-3xl);
+  padding: var(--space-3xl);
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  text-align: center;
+}
+
+.hardware-service-page__cta-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.hardware-service-page__cta-title {
+  margin: 0 0 var(--space-md) 0;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  font-family: var(--font-heading);
+}
+
+.hardware-service-page__cta-description {
+  margin: 0 0 var(--space-xl) 0;
+  font-size: 1.125rem;
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-muted);
+}
+
+.hardware-service-page__cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--button-primary-text);
+  background-color: var(--button-primary-bg);
+  border: none;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.hardware-service-page__cta-button:hover {
+  background-color: var(--button-primary-hover-bg);
+  transform: translateY(-2px);
+}
+
+.hardware-service-page__cta-button:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .hardware-service-page {
+    padding: var(--space-2xl) var(--space-md);
+    padding-top: calc(var(--space-2xl) + 2rem);
+  }
+
+  .hardware-service-page__article {
+    padding: var(--space-xl);
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .hardware-service-page__container {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .hardware-service-page__main-content {
+    width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hardware-service-page__header {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .hardware-service-page__main {
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+    width: 100%;
+  }
+
+  .hardware-service-page__sidebar {
+    position: static;
+    width: 100%;
+  }
+
+  .hardware-service-page__section {
+    margin-bottom: var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .hardware-service-page__section-title {
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+    width: 100%;
+  }
+
+  .hardware-service-page__features {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+    justify-items: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+    box-sizing: border-box;
+  }
+
+  .hardware-service-page__features > * {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hardware-service-page__cta {
+    padding: var(--space-2xl);
+  }
+
+  .hardware-service-page__cta-button {
+    width: 100%;
+  }
+}
+
+/* Extra small devices (iPhone SE, iPhone 12 Pro Max, etc.) */
+@media (max-width: 428px) {
+  .hardware-service-page {
+    padding-left: var(--space-sm);
+    padding-right: var(--space-sm);
+  }
+
+  .hardware-service-page__article {
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+  }
+
+  .hardware-service-page__features {
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hardware-service-page__section {
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .hardware-service-page__main-content {
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}

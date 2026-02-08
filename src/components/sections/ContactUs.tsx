@@ -6,7 +6,7 @@ import Stepper, { Step } from '../ui/Stepper'
 import FloatingLines from '../ui/FloatingLines'
 import { useRecaptcha } from '../../hooks/useRecaptcha'
 import { useRateLimit } from '../../hooks/useRateLimit'
-import { EMAILJS_CONFIG, RECAPTCHA_CONFIG } from '../../config/emailjs'
+import { EMAILJS_CONFIG } from '../../config/emailjs'
 import './ContactUs.css'
 
 export default function ContactUs() {

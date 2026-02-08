@@ -13,6 +13,10 @@ import ResearchPage from './pages/ResearchPage'
 import ContactPage from './pages/ContactPage'
 import PortfolioPage from './pages/PortfolioPage'
 import PortfolioDetailPage from './pages/PortfolioDetailPage'
+import DeviceSalesPage from './pages/hardware/DeviceSalesPage'
+import DevicePartsPage from './pages/hardware/DevicePartsPage'
+import DeviceRentalPage from './pages/hardware/DeviceRentalPage'
+import TechnicalSupportMaintenanceLifecyclePage from './pages/hardware/TechnicalSupportMaintenanceLifecyclePage'
 import AdminLoginPage from './pages/AdminLoginPage'
 import AdminEditorPage from './pages/AdminEditorPage'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -44,6 +48,12 @@ function App() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/portfolio" element={<PortfolioPage />} />
         <Route path="/portfolio/:id" element={<PortfolioDetailPage />} />
+        <Route path="/hardware/device-sales" element={<DeviceSalesPage />} />
+        <Route path="/hardware/device-parts" element={<DevicePartsPage />} />
+        <Route path="/hardware/device-rental" element={<DeviceRentalPage />} />
+        <Route path="/hardware/technical-support" element={<TechnicalSupportMaintenanceLifecyclePage />} />
+        <Route path="/hardware/maintenance" element={<TechnicalSupportMaintenanceLifecyclePage />} />
+        <Route path="/hardware/lifecycle-services" element={<TechnicalSupportMaintenanceLifecyclePage />} />
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route
           path="/admin/editor"

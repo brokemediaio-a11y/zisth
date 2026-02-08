@@ -140,6 +140,7 @@ export default function Services() {
             <ServiceCard
               key={activeServiceId}
               service={activeService}
+              isHardware={isHardware}
             />
           </AnimatePresence>
         </div>
