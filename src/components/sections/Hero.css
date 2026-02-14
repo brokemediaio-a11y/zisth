@@ -18,6 +18,8 @@
     position: fixed;
     height: 100vh;
     height: 100dvh;
+    min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -52,7 +54,7 @@
   overflow: hidden;
 }
 
-.hero__spline-bg-inner spline-viewer {
+.hero__spline-bg-inner .robot-3d-container {
   display: block;
   /* Full width for complete mouse interaction coverage */
   width: 100%;
@@ -64,11 +66,42 @@
   transform-origin: center center;
 }
 
-/* Mobile: center robot and adjust transform */
+.hero__spline-bg-inner .robot-3d-container canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Mobile: center robot horizontally and move up on Y axis */
 @media (max-width: 768px) {
-  .hero__spline-bg-inner spline-viewer {
-    transform: translateX(0) scale(1.1);
+  .hero__spline-bg-inner .robot-3d-container {
+    position: absolute;
+    left: 55%;
+    transform: translateX(-50%) translateY(-8%) scale(0.95);
     transform-origin: center center;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* Medium mobile: slightly adjust */
+@media (max-width: 768px) and (min-width: 481px) {
+  .hero__spline-bg-inner .robot-3d-container {
+    transform: translateX(-50%) translateY(-8%) scale(0.9);
+  }
+}
+
+/* Small phones: adjust size and position */
+@media (max-width: 480px) {
+  .hero__spline-bg-inner .robot-3d-container {
+    transform: translateX(-50%) translateY(-10%) scale(0.85);
+  }
+}
+
+/* Extra small phones: adjust size and position */
+@media (max-width: 375px) {
+  .hero__spline-bg-inner .robot-3d-container {
+    transform: translateX(-50%) translateY(-12%) scale(0.8);
   }
 }
 
@@ -147,9 +180,9 @@
     position: relative;
     order: 2;
     width: 100%;
-    height: 50vh;
-    min-height: 300px;
-    max-height: 55vh;
+    height: calc(100vh - var(--hero-padding-y-mobile) * 2 - 14rem);
+    min-height: calc(100vh - 15rem);
+    flex: 1;
     margin-top: var(--space-md); /* Reduced spacing from content */
     overflow: hidden;
   }
@@ -161,6 +194,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     /* Crop bottom to hide Spline logo */
     clip-path: inset(0 0 10% 0);
     -webkit-clip-path: inset(0 0 10% 0);
@@ -175,9 +209,9 @@
   }
 
   .hero__spline-bg {
-    height: 45vh;
-    min-height: 280px;
-    max-height: 50vh;
+    height: calc(100vh - var(--hero-padding-y-mobile) * 2 - 13rem);
+    min-height: calc(100vh - 16rem);
+    flex: 1;
     margin-top: var(--space-md); /* Reduced spacing on small phones */
   }
 
@@ -191,8 +225,50 @@
 /* Extra small phones: further adjustments */
 @media (max-width: 375px) {
   .hero__spline-bg {
-    height: 40vh;
-    min-height: 240px;
-    max-height: 45vh;
+    height: calc(100vh - var(--hero-padding-y-mobile) * 2 - 12rem);
+    min-height: calc(100vh - 14rem);
+    flex: 1;
+  }
+}
+
+/* Robot greeting text - positioned next to robot's head */
+.hero__robot-greeting {
+  position: absolute;
+  top: 42%;
+  right: 10%;
+  transform: translateY(-50%);
+  z-index: 10;
+  font-family: var(--font-heading);
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* Mobile: position text below Learn more button (right after content) */
+@media (max-width: 768px) {
+  .hero__robot-greeting {
+    position: absolute;
+    /* Position at top of hero__spline-bg area, right after content */
+    top: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+    width: 100%;
+    text-align: center;
+    font-size: clamp(0.875rem, 3vw, 1.125rem);
+    z-index: 2;
+    pointer-events: none;
+  }
+}
+
+/* Small phones: adjust position */
+@media (max-width: 480px) {
+  .hero__robot-greeting {
+    top: 0.25rem;
+    font-size: clamp(0.75rem, 2.5vw, 1rem);
   }
 }
