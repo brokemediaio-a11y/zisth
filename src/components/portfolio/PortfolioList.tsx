@@ -112,10 +112,46 @@ const portfolioItems: PortfolioItem[] = [
 
 export default function PortfolioList() {
   const [selectedCategory, setSelectedCategory] = useState<PortfolioCategory>('Hardware')
+  const [shareSuccess, setShareSuccess] = useState(false)
   const isHardware = selectedCategory === 'Hardware'
 
   const handleToggle = (value: boolean) => {
     setSelectedCategory(value ? 'Hardware' : 'Software')
+  }
+
+  const handleShare = async () => {
+    const portfolioUrl = `${window.location.origin}/portfolio`
+    const shareData = {
+      title: 'Our Portfolio - Zisth',
+      text: 'Explore our portfolio of hardware and software solutions',
+      url: portfolioUrl,
+    }
+
+    try {
+      // Try Web Share API first (works on mobile and some desktop browsers)
+      if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+        await navigator.share(shareData)
+        setShareSuccess(true)
+        setTimeout(() => setShareSuccess(false), 2000)
+      } else {
+        // Fallback to copy to clipboard
+        await navigator.clipboard.writeText(portfolioUrl)
+        setShareSuccess(true)
+        setTimeout(() => setShareSuccess(false), 2000)
+      }
+    } catch (error: any) {
+      // If user cancels share, don't show error
+      if (error.name !== 'AbortError') {
+        // Fallback to copy to clipboard if share fails
+        try {
+          await navigator.clipboard.writeText(portfolioUrl)
+          setShareSuccess(true)
+          setTimeout(() => setShareSuccess(false), 2000)
+        } catch (clipboardError) {
+          console.error('Failed to copy link:', clipboardError)
+        }
+      }
+    }
   }
 
   const filteredItems = portfolioItems.filter(
@@ -126,15 +162,38 @@ export default function PortfolioList() {
     <div className="portfolio-list">
       <div className="portfolio-list__container">
         <header className="portfolio-list__header">
-          <h1 className="portfolio-list__title">
-            <BlurText
-              text="OUR WORK"
-              delay={200}
-              animateBy="words"
-              direction="top"
-              className="portfolio-list__title-text"
-            />
-          </h1>
+          <div className="portfolio-list__header-top">
+            <h1 className="portfolio-list__title">
+              <BlurText
+                text="OUR WORK"
+                delay={200}
+                animateBy="words"
+                direction="top"
+                className="portfolio-list__title-text"
+              />
+            </h1>
+            <button
+              className="portfolio-list__share-button"
+              onClick={handleShare}
+              aria-label="Share portfolio page"
+              title="Share this portfolio page"
+            >
+              <svg
+                className="portfolio-list__share-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"
+                  fill="currentColor"
+                />
+              </svg>
+              {shareSuccess && (
+                <span className="portfolio-list__share-success">Link copied!</span>
+              )}
+            </button>
+          </div>
           <p className="portfolio-list__subtitle">
             Explore our portfolio of hardware and software solutions
           </p>

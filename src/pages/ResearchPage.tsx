@@ -130,7 +130,7 @@ export default function ResearchPage() {
               "Technical validation",
               "Translational development work"
             ]}
-            typingSpeed={75}
+            typingSpeed={125}
             pauseDuration={1500}
             showCursor={true}
             cursorCharacter="|"

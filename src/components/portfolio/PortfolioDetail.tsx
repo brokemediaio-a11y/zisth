@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import type { PortfolioItem } from '../../types/portfolio'
 import './PortfolioDetail.css'
@@ -284,12 +285,48 @@ const portfolioItems: PortfolioItem[] = [
 export default function PortfolioDetail() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const [shareSuccess, setShareSuccess] = useState(false)
 
   const portfolioItem = portfolioItems.find((item) => item.id === id)
 
   if (!portfolioItem) {
     navigate('/portfolio')
     return null
+  }
+
+  const handleShare = async () => {
+    const portfolioUrl = `${window.location.origin}/portfolio/${id}`
+    const shareData = {
+      title: portfolioItem.title,
+      text: portfolioItem.description || '',
+      url: portfolioUrl,
+    }
+
+    try {
+      // Try Web Share API first (works on mobile and some desktop browsers)
+      if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+        await navigator.share(shareData)
+        setShareSuccess(true)
+        setTimeout(() => setShareSuccess(false), 2000)
+      } else {
+        // Fallback to copy to clipboard
+        await navigator.clipboard.writeText(portfolioUrl)
+        setShareSuccess(true)
+        setTimeout(() => setShareSuccess(false), 2000)
+      }
+    } catch (error: any) {
+      // If user cancels share, don't show error
+      if (error.name !== 'AbortError') {
+        // Fallback to copy to clipboard if share fails
+        try {
+          await navigator.clipboard.writeText(portfolioUrl)
+          setShareSuccess(true)
+          setTimeout(() => setShareSuccess(false), 2000)
+        } catch (clipboardError) {
+          console.error('Failed to copy link:', clipboardError)
+        }
+      }
+    }
   }
 
   return (
@@ -302,10 +339,33 @@ export default function PortfolioDetail() {
         <article className="portfolio-detail__article">
           <header className="portfolio-detail__header">
             <div className="portfolio-detail__meta">
-              <span className="portfolio-detail__category">{portfolioItem.category}</span>
-              {portfolioItem.year && (
-                <span className="portfolio-detail__year">{portfolioItem.year}</span>
-              )}
+              <div className="portfolio-detail__meta-left">
+                <span className="portfolio-detail__category">{portfolioItem.category}</span>
+                {portfolioItem.year && (
+                  <span className="portfolio-detail__year">{portfolioItem.year}</span>
+                )}
+              </div>
+              <button
+                className="portfolio-detail__share-button"
+                onClick={handleShare}
+                aria-label="Share portfolio item"
+                title="Share this portfolio item"
+              >
+                <svg
+                  className="portfolio-detail__share-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"
+                    fill="currentColor"
+                  />
+                </svg>
+                {shareSuccess && (
+                  <span className="portfolio-detail__share-success">Link copied!</span>
+                )}
+              </button>
             </div>
             <h1 className="portfolio-detail__title">{portfolioItem.title}</h1>
             <p className="portfolio-detail__description">{portfolioItem.description}</p>

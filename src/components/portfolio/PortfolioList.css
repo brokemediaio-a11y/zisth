@@ -16,8 +16,17 @@
   margin-bottom: var(--space-3xl);
 }
 
-.portfolio-list__title {
+.portfolio-list__header-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-lg);
+  position: relative;
   margin: 40px 0 var(--space-md) 0;
+}
+
+.portfolio-list__title {
+  margin: 0;
   font-size: clamp(2.5rem, 6vw, 4rem);
   font-weight: var(--font-weight-bold);
   color: var(--color-text);
@@ -35,6 +44,75 @@
   margin: 0;
   font-size: clamp(1rem, 2vw, 1.25rem);
   color: var(--color-text-muted);
+}
+
+.portfolio-list__share-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-sm) var(--space-md);
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+  gap: var(--space-xs);
+}
+
+.portfolio-list__share-button:hover {
+  background: var(--glass-bg);
+  border-color: var(--button-primary-bg);
+  color: var(--button-primary-bg);
+}
+
+.portfolio-list__share-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.portfolio-list__share-success {
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-text);
+  color: var(--color-bg);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  animation: shareSuccessFade 2s ease;
+  pointer-events: none;
+}
+
+.portfolio-list__share-success::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid var(--color-text);
+}
+
+@keyframes shareSuccessFade {
+  0%, 100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(5px);
+  }
+  10%, 90% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 }
 
 .portfolio-list__toggle-wrapper {
@@ -169,5 +247,19 @@
 
   .portfolio-card__content {
     padding: var(--space-lg);
+  }
+
+  .portfolio-list__header-top {
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .portfolio-list__share-button {
+    padding: var(--space-xs) var(--space-sm);
+  }
+
+  .portfolio-list__share-icon {
+    width: 16px;
+    height: 16px;
   }
 }

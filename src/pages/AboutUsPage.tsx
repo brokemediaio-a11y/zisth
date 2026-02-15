@@ -1,13 +1,45 @@
 import { useState } from 'react'
 import BlurText from '../components/ui/BlurText'
 import TiltedCard from '../components/ui/TiltedCard'
-import ShapeBlur from '../components/ui/ShapeBlur'
 import './AboutUsPage.css'
 
 export default function AboutUsPage() {
   const handleAnimationComplete = () => {
     console.log('Animation completed!');
   };
+
+  const teamMembers = [
+    {
+      name: 'NAVID KARL',
+      role: 'CEO & Founder',
+      bio: 'Leading Zisth with vision and expertise in technology innovation.'
+    },
+    {
+      name: 'Sarah Chen',
+      role: 'Lead Data Scientist',
+      bio: 'Specializing in machine learning models and behavioral analysis systems.'
+    },
+    {
+      name: 'Marcus Johnson',
+      role: 'Senior Systems Engineer',
+      bio: 'Expert in intelligent systems design and complex process automation.'
+    },
+    {
+      name: 'Elena Rodriguez',
+      role: 'UX Design Director',
+      bio: 'Creating human-centered experiences at the intersection of design and technology.'
+    },
+    {
+      name: 'David Kim',
+      role: 'Research Lead',
+      bio: 'Driving interdisciplinary research and translating findings into products.'
+    },
+    {
+      name: 'Amara Patel',
+      role: 'Product Strategist',
+      bio: 'Bridging research and productization with ethical constraints and real-world focus.'
+    }
+  ];
 
   const cards = [
     {
@@ -25,88 +57,78 @@ export default function AboutUsPage() {
   ];
 
   return (
-    <main className="about-us-page">
-      <div className="about-us-container">
-        <div className="about-us-header">
+    <>
+      <div className="about-us-story">
+        <div className="about-us-story-header">
           <BlurText
-            text="Zisth Synthesis Lab AB"
+            text="How Zisth Came to Be"
             delay={200}
             animateBy="words"
             direction="top"
-            onAnimationComplete={handleAnimationComplete}
-            className="about-us-heading"
+            className="about-us-story-heading"
           />
-          <p className="about-us-subtext">
-            Zisth operates at the intersection of science, technology, and design, translating research into real products with a strong focus on artificial intelligence and intelligent systems.
+          <p className="about-us-story-subtext">
+            Zisth was born out of experience, not a blueprint. During the years we worked in technology and software services, one question kept repeating itself.
           </p>
         </div>
 
-        <div className="about-us-cards">
-          {cards.map((card, index) => (
-            <TiltedCard
-              key={index}
-              title={card.title}
-              description={card.description}
-              containerHeight="250px"
-              containerWidth="100%"
-              rotateAmplitude={8}
-              scaleOnHover={1.03}
-              showMobileWarning={false}
-              showTooltip={false}
-              displayOverlayContent={false}
-            />
-          ))}
+        <div className="about-us-story-content">
+          <div className="about-us-story-text">
+            <h3 className="about-us-story-question">A recurring question</h3>
+            <p className="about-us-story-paragraph">
+              How can technology become something more than a tool?
+            </p>
+            <p className="about-us-story-paragraph">
+              We had worked with many systems, from commercial software to complex infrastructures. They all functioned, but none of them understood.
+            </p>
+            <p className="about-us-story-paragraph">
+              That realization revealed a gap between technical performance and human understanding. If bridged, technology could become a partner in growth, learning, and decision-making.
+            </p>
+            <p className="about-us-story-paragraph">
+              From this perspective, the idea of Zisth emerged. It was envisioned as a space for research, experimentation, and the development of technologies that could be both intelligent and meaningful.
+            </p>
+            <p className="about-us-story-paragraph">
+              We began with projects related to artificial intelligence, but the path quickly expanded. Today, Zisth operates across diverse scientific and technological domains, from data analysis and intelligent systems design to interdisciplinary research at the intersection of science and human experience.
+            </p>
+            <p className="about-us-story-paragraph">
+              Over time, the vision evolved into a working method: how we choose what to build, and why.
+            </p>
+          </div>
         </div>
+      </div>
 
-        <div className="about-us-story">
-          <div className="about-us-story-header">
+      <main className="about-us-page">
+        <div className="about-us-container">
+          <div className="about-us-header">
             <BlurText
-              text="How Zisth Came to Be"
+              text="Zisth Synthesis Lab AB"
               delay={200}
               animateBy="words"
               direction="top"
-              className="about-us-story-heading"
+              onAnimationComplete={handleAnimationComplete}
+              className="about-us-heading"
             />
-            <p className="about-us-story-subtext">
-              Zisth was born out of experience, not a blueprint. During the years we worked in technology and software services, one question kept repeating itself.
+            <p className="about-us-subtext">
+              Zisth operates at the intersection of science, technology, and design, translating research into real products with a strong focus on artificial intelligence and intelligent systems.
             </p>
           </div>
 
-          <div className="about-us-story-content">
-            <div className="about-us-story-shape-blur">
-              <ShapeBlur
-                variation={0}
-                pixelRatioProp={typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1}
-                shapeSize={1}
-                roundness={0.3}
-                borderSize={0.015}
-                circleSize={0.15}
-                circleEdge={0.8}
+          <div className="about-us-cards">
+            {cards.map((card, index) => (
+              <TiltedCard
+                key={index}
+                title={card.title}
+                description={card.description}
+                containerHeight="250px"
+                containerWidth="100%"
+                rotateAmplitude={8}
+                scaleOnHover={1.03}
+                showMobileWarning={false}
+                showTooltip={false}
+                displayOverlayContent={false}
               />
-            </div>
-            <div className="about-us-story-text">
-              <h3 className="about-us-story-question">A recurring question</h3>
-              <p className="about-us-story-paragraph">
-                How can technology become something more than a tool?
-              </p>
-              <p className="about-us-story-paragraph">
-                We had worked with many systems, from commercial software to complex infrastructures. They all functioned, but none of them understood.
-              </p>
-              <p className="about-us-story-paragraph">
-                That realization revealed a gap between technical performance and human understanding. If bridged, technology could become a partner in growth, learning, and decision-making.
-              </p>
-              <p className="about-us-story-paragraph">
-                From this perspective, the idea of Zisth emerged. It was envisioned as a space for research, experimentation, and the development of technologies that could be both intelligent and meaningful.
-              </p>
-              <p className="about-us-story-paragraph">
-                We began with projects related to artificial intelligence, but the path quickly expanded. Today, Zisth operates across diverse scientific and technological domains, from data analysis and intelligent systems design to interdisciplinary research at the intersection of science and human experience.
-              </p>
-              <p className="about-us-story-paragraph">
-                Over time, the vision evolved into a working method: how we choose what to build, and why.
-              </p>
-            </div>
+            ))}
           </div>
-        </div>
 
         <div className="about-us-approach">
           <div className="about-us-approach-section">
@@ -173,6 +195,47 @@ export default function AboutUsPage() {
           </div>
         </div>
 
+        <div className="about-us-team">
+          <div className="about-us-team-header">
+            <BlurText
+              text="Our Team"
+              delay={200}
+              animateBy="words"
+              direction="top"
+              className="about-us-team-heading"
+            />
+            <p className="about-us-team-subtext">
+              Meet the people behind Zisth
+            </p>
+          </div>
+
+          <div className="about-us-team-grid">
+            <div className="about-us-team-card">
+              <div className="about-us-team-card-avatar">
+                <div className="about-us-team-card-avatar-placeholder">
+                  {teamMembers[0].name.split(' ').map(n => n[0]).join('')}
+                </div>
+              </div>
+              <h3 className="about-us-team-card-name">{teamMembers[0].name}</h3>
+              <p className="about-us-team-card-role">{teamMembers[0].role}</p>
+              <p className="about-us-team-card-bio">{teamMembers[0].bio}</p>
+            </div>
+
+            {teamMembers.slice(1).map((member, index) => (
+              <div key={index + 1} className="about-us-team-card">
+                <div className="about-us-team-card-avatar">
+                  <div className="about-us-team-card-avatar-placeholder">
+                    {member.name.split(' ').map(n => n[0]).join('')}
+                  </div>
+                </div>
+                <h3 className="about-us-team-card-name">{member.name}</h3>
+                <p className="about-us-team-card-role">{member.role}</p>
+                <p className="about-us-team-card-bio">{member.bio}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div className="about-us-faq">
           <div className="about-us-faq-header">
             <BlurText
@@ -204,6 +267,7 @@ export default function AboutUsPage() {
         </div>
       </div>
     </main>
+    </>
   );
 }
 
