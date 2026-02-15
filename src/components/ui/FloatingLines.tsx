@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, memo } from 'react'
 import {
   Scene,
   OrthographicCamera,
@@ -254,7 +254,7 @@ function hexToVec3(hex: string): Vector3 {
   return new Vector3(r / 255, g / 255, b / 255)
 }
 
-export default function FloatingLines({
+function FloatingLines({
   linesGradient,
   enabledWaves = ['top', 'middle', 'bottom'],
   lineCount = [6],
@@ -272,12 +272,18 @@ export default function FloatingLines({
   mixBlendMode = 'normal',
 }: FloatingLinesProps) {
   const containerRef = useRef<HTMLDivElement | null>(null)
+  const clockRef = useRef<Clock | null>(null)
   const targetMouseRef = useRef<Vector2>(new Vector2(-1000, -1000))
   const currentMouseRef = useRef<Vector2>(new Vector2(-1000, -1000))
   const targetInfluenceRef = useRef<number>(0)
   const currentInfluenceRef = useRef<number>(0)
   const targetParallaxRef = useRef<Vector2>(new Vector2(0, 0))
   const currentParallaxRef = useRef<Vector2>(new Vector2(0, 0))
+  
+  // Initialize clock once and reuse it to prevent animation reset
+  if (!clockRef.current) {
+    clockRef.current = new Clock()
+  }
 
   const getLineCount = (waveType: 'top' | 'middle' | 'bottom'): number => {
     if (typeof lineCount === 'number') return lineCount
@@ -314,6 +320,9 @@ export default function FloatingLines({
     renderer.domElement.style.width = '100%'
     renderer.domElement.style.height = '100%'
     containerRef.current.appendChild(renderer.domElement)
+    
+    // Use the persistent clock from ref
+    const clock = clockRef.current!
 
     const uniforms = {
       iTime: { value: 0 },
@@ -385,8 +394,6 @@ export default function FloatingLines({
     const geometry = new PlaneGeometry(2, 2)
     const mesh = new Mesh(geometry, material)
     scene.add(mesh)
-
-    const clock = new Clock()
 
     const setSize = () => {
       const el = containerRef.current!
@@ -502,3 +509,6 @@ export default function FloatingLines({
     />
   )
 }
+
+// Memoize the component to prevent re-renders when parent re-renders
+export default memo(FloatingLines)

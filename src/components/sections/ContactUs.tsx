@@ -13,6 +13,7 @@ export default function ContactUs() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    purpose: '',
     message: '',
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -28,7 +29,7 @@ export default function ContactUs() {
     }
   }, [])
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
@@ -56,6 +57,10 @@ export default function ContactUs() {
     }
     if (formData.email.trim().length > 255) {
       return { valid: false, error: 'Email must not exceed 255 characters' }
+    }
+
+    if (!formData.purpose.trim()) {
+      return { valid: false, error: 'Please select a purpose' }
     }
 
     if (!formData.message.trim()) {
@@ -126,6 +131,7 @@ export default function ContactUs() {
       const templateParams = {
         from_name: formData.name.trim(),
         from_email: formData.email.trim(),
+        purpose: formData.purpose.trim(),
         message: formData.message.trim(),
         to_email: EMAILJS_CONFIG.RECEIVER_EMAIL,
         recaptcha_token: recaptchaToken, // Include reCAPTCHA token
@@ -149,7 +155,7 @@ export default function ContactUs() {
         
         // Clear form data only after success message timeout
         setTimeout(() => {
-          setFormData({ name: '', email: '', message: '' })
+          setFormData({ name: '', email: '', purpose: '', message: '' })
         }, 5000)
       } else {
         throw new Error('Email service returned an error')
@@ -185,8 +191,8 @@ export default function ContactUs() {
           lineDistance={0.1}
           bendRadius={5}
           bendStrength={-0.5}
-          interactive={true}
-          parallax={true}
+          interactive={false}
+          parallax={false}
         />
       </div>
       <div className="contact-us__container">
@@ -224,9 +230,9 @@ export default function ContactUs() {
             >
               <Step>
                 <div className="contact-us__step">
-                  <h3 className="contact-us__step-title">What's your name?</h3>
+                  <h3 className="contact-us__step-title">Let's get started</h3>
                   <p className="contact-us__step-description">
-                    Let's start with a friendly introduction
+                    We'd love to know who you are and how to reach you
                   </p>
                   <div className="contact-us__field">
                     <label htmlFor="name" className="contact-us__label">
@@ -243,15 +249,6 @@ export default function ContactUs() {
                       required
                     />
                   </div>
-                </div>
-              </Step>
-
-              <Step>
-                <div className="contact-us__step">
-                  <h3 className="contact-us__step-title">How can we reach you?</h3>
-                  <p className="contact-us__step-description">
-                    We'll use this to get back to you
-                  </p>
                   <div className="contact-us__field">
                     <label htmlFor="email" className="contact-us__label">
                       Email
@@ -272,10 +269,29 @@ export default function ContactUs() {
 
               <Step>
                 <div className="contact-us__step">
-                  <h3 className="contact-us__step-title">Tell us about your project</h3>
+                  <h3 className="contact-us__step-title">Tell us more</h3>
                   <p className="contact-us__step-description">
                     Share the details and we'll craft the perfect solution
                   </p>
+                  <div className="contact-us__field">
+                    <label htmlFor="purpose" className="contact-us__label">
+                      Purpose of reaching out
+                    </label>
+                    <select
+                      id="purpose"
+                      name="purpose"
+                      value={formData.purpose}
+                      onChange={handleChange}
+                      className="contact-us__select"
+                      required
+                    >
+                      <option value="">Select a purpose</option>
+                      <option value="Hardware Service">Hardware Service</option>
+                      <option value="Software service">Software service</option>
+                      <option value="Collaboration">Collaboration</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
                   <div className="contact-us__field">
                     <label htmlFor="message" className="contact-us__label">
                       Message
@@ -290,39 +306,6 @@ export default function ContactUs() {
                       rows={6}
                       required
                     />
-                  </div>
-                </div>
-              </Step>
-
-              <Step>
-                <div className="contact-us__step">
-                  <h3 className="contact-us__step-title">Review & Submit</h3>
-                  <p className="contact-us__step-description">
-                    Please review your information before sending
-                  </p>
-                  <div className="contact-us__review">
-                    <div className="contact-us__review-item">
-                      <span className="contact-us__review-label">Name:</span>
-                      <span className="contact-us__review-value">
-                        {formData.name.trim() || <span className="contact-us__review-empty">Not provided</span>}
-                      </span>
-                    </div>
-                    <div className="contact-us__review-item">
-                      <span className="contact-us__review-label">Email:</span>
-                      <span className="contact-us__review-value">
-                        {formData.email.trim() || <span className="contact-us__review-empty">Not provided</span>}
-                      </span>
-                    </div>
-                    <div className="contact-us__review-item">
-                      <span className="contact-us__review-label">Message:</span>
-                      <span className="contact-us__review-value">
-                        {formData.message.trim() ? (
-                          <span className="contact-us__review-message">{formData.message.trim()}</span>
-                        ) : (
-                          <span className="contact-us__review-empty">Not provided</span>
-                        )}
-                      </span>
-                    </div>
                   </div>
 
                   {isSubmitting && (
