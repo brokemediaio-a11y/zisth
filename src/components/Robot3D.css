@@ -1,0 +1,16 @@
+.robot-3d-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 500px; /* Ensure it's not zero */
+  overflow: hidden;
+  pointer-events: auto;
+}
+
+.robot-3d-container canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+}

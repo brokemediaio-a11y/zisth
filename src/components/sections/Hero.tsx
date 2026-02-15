@@ -1,16 +1,34 @@
 import { motion } from 'framer-motion'
+import { useState } from 'react'
 import HeroContent from './HeroContent'
-import SplineViewerBackground from '../SplineViewerBackground'
-import '../SplineViewerBackground.css'
+import Robot3D from '../Robot3D'
+import TextType from '../ui/TextType'
 import './Hero.css'
 
 export default function Hero() {
+  const [introComplete, setIntroComplete] = useState(false)
+
   return (
     <section className="hero" aria-labelledby="hero-headline">
-      {/* Full-section Spline background, positioned on the right */}
+      {/* Full-section 3D robot background, positioned on the right */}
       <div className="hero__spline-bg">
         <div className="hero__spline-bg-inner">
-          <SplineViewerBackground />
+          <Robot3D onIntroComplete={() => setIntroComplete(true)} />
+          {/* Robot greeting text - appears after intro animation */}
+          {introComplete && (
+            <motion.div
+              className="hero__robot-greeting"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <TextType
+                text={['Hi, I am Zisth']}
+                typingSpeed={80}
+                showCursor={true}
+              />
+            </motion.div>
+          )}
         </div>
       </div>
 
