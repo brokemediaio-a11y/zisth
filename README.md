@@ -1,4 +1,4 @@
-# Zisth – Company Website
+# Zentrixa Lab – Company Website
 
 React + TypeScript company site with **3D Spline** and **Framer Motion** animations, built with **Vite** for fast dev and optimized production builds.
 

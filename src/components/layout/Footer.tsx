@@ -47,7 +47,7 @@ export default function Footer() {
 
           <div className="footer__bottom">
             <p className="footer__copyright">
-              © {new Date().getFullYear()} Zisth Synthesis Lab AB. All rights reserved.
+              © {new Date().getFullYear()} Zentrixa Lab. All rights reserved.
             </p>
             <p className="footer__watermark">
               Made with love by{' '}

@@ -126,7 +126,7 @@ export default function ResearchPage() {
           <h1 className="research-heading">
             <TextType
               text={[
-                "Zisth's scientific Research",
+                "Zentrixa Lab's scientific Research",
                 "Internally conducted studies",
                 "Technical validation",
                 "Translational development work"
@@ -139,7 +139,7 @@ export default function ResearchPage() {
             />
           </h1>
           <p className="research-subtext">
-            Zist's scientific and applied research activities, including internally conducted studies, 
+            Zentrixa Lab's scientific and applied research activities, including internally conducted studies, 
             technical validation, and translational development work. Our research spans from experimental 
             prototypes to clinical evaluations, translating knowledge into actionable insights and products.
           </p>

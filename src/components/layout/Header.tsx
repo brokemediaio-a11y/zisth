@@ -22,8 +22,8 @@ export default function Header() {
   return (
     <header className="header">
       <div className="header__bar">
-        <Link to="/" className="header__logo" aria-label="Zisth home">
-          <img src="/zisthlogo.png" alt="Zisth" className="header__logo-img" />
+        <Link to="/" className="header__logo" aria-label="Zentrixa Lab home">
+          <img src="/zisthlogo.png" alt="Zentrixa Lab" className="header__logo-img" />
         </Link>
 
         <div className="header__dock-wrap">

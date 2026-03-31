@@ -19,7 +19,7 @@ const testimonials: Testimonial[] = [
     role: 'CTO',
     company: 'TechFlow Solutions',
     content:
-      'Nexordis transformed our data infrastructure with their ML models. The predictive analytics system they built has reduced our operational costs by 35% and improved decision-making across all departments. Their team is incredibly knowledgeable and responsive.',
+      'Zentrixa Lab transformed our data infrastructure with their ML models. The predictive analytics system they built has reduced our operational costs by 35% and improved decision-making across all departments. Their team is incredibly knowledgeable and responsive.',
     rating: 5,
   },
   {
@@ -28,7 +28,7 @@ const testimonials: Testimonial[] = [
     role: 'Product Director',
     company: 'InnovateLabs',
     content:
-      'Working with Nexordis on our agentic AI assistant was a game-changer. They delivered a sophisticated conversational AI that understands context and learns from interactions. Our customer satisfaction scores increased by 42% within three months.',
+      'Working with Zentrixa Lab on our agentic AI assistant was a game-changer. They delivered a sophisticated conversational AI that understands context and learns from interactions. Our customer satisfaction scores increased by 42% within three months.',
     rating: 5,
   },
   {
@@ -37,7 +37,7 @@ const testimonials: Testimonial[] = [
     role: 'Founder & CEO',
     company: 'GreenEnergy Analytics',
     content:
-      'The custom IoT sensor network and ML-powered energy prediction platform Nexordis developed exceeded our expectations. We can now forecast energy consumption with 94% accuracy, helping our clients optimize their operations significantly.',
+      'The custom IoT sensor network and ML-powered energy prediction platform Zentrixa Lab developed exceeded our expectations. We can now forecast energy consumption with 94% accuracy, helping our clients optimize their operations significantly.',
     rating: 5,
   },
   {
@@ -46,7 +46,7 @@ const testimonials: Testimonial[] = [
     role: 'Head of Engineering',
     company: 'CloudScale Inc.',
     content:
-      'Nexordis built our entire DevOps pipeline and cloud infrastructure. Their expertise in container orchestration and CI/CD automation has enabled us to deploy 10x faster. The infrastructure is scalable, secure, and cost-effective.',
+      'Zentrixa Lab built our entire DevOps pipeline and cloud infrastructure. Their expertise in container orchestration and CI/CD automation has enabled us to deploy 10x faster. The infrastructure is scalable, secure, and cost-effective.',
     rating: 5,
   },
   {
@@ -55,7 +55,7 @@ const testimonials: Testimonial[] = [
     role: 'VP of Innovation',
     company: 'MedTech Innovations',
     content:
-      'Their embedded systems development for our medical devices was outstanding. The real-time control systems they created are reliable, efficient, and meet all regulatory requirements. Nexordis truly understands both hardware and software integration.',
+      'Their embedded systems development for our medical devices was outstanding. The real-time control systems they created are reliable, efficient, and meet all regulatory requirements. Zentrixa Lab truly understands both hardware and software integration.',
     rating: 5,
   },
   {
@@ -64,7 +64,7 @@ const testimonials: Testimonial[] = [
     role: 'Operations Manager',
     company: 'AutoManufacturing Co.',
     content:
-      'The robotic automation system Nexordis implemented has revolutionized our production line. Their computer vision integration and robot control software have increased our precision by 60% while reducing manual labor costs. Exceptional work.',
+      'The robotic automation system Zentrixa Lab implemented has revolutionized our production line. Their computer vision integration and robot control software have increased our precision by 60% while reducing manual labor costs. Exceptional work.',
     rating: 5,
   },
 ]
@@ -106,7 +106,7 @@ export default function Testimonials() {
         <div className="testimonials__header">
           <h2 className="testimonials__heading">Our Reviews</h2>
           <p className="testimonials__subtext">
-            Don't just take our word for it. Here's what real clients are saying about Nexordis
+            Don't just take our word for it. Here's what real clients are saying about Zentrixa Lab
           </p>
         </div>
 
